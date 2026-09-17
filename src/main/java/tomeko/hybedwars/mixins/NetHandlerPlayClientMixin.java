@@ -13,7 +13,7 @@ import tomeko.hybedwars.event.ClientReceiveMessageEvents;
 @Mixin(NetHandlerPlayClient.class)
 public abstract class NetHandlerPlayClientMixin {
     @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
-    private void hymod$onHandleChat(S02PacketChat packetIn, CallbackInfo ci) {
+    private void hybedwars$onHandleChat(S02PacketChat packetIn, CallbackInfo ci) {
         IChatComponent message = packetIn.getChatComponent();
         if (message == null) {
             return;
@@ -41,7 +41,7 @@ public abstract class NetHandlerPlayClientMixin {
             return;
         }
 
-        ((S02PacketChatAccessor) packetIn).hymod$setChatComponent(message);
+        ((S02PacketChatAccessor) packetIn).hybedwars$setChatComponent(message);
 
         if (isChat) {
             ClientReceiveMessageEvents.CHAT.invoker().onReceiveChatMessage(message);

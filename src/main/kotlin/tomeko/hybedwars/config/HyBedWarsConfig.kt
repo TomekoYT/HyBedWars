@@ -8,7 +8,6 @@ import cc.polyfrost.oneconfig.config.data.InfoType
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
 *///?} else {
-import org.polyfrost.compose.render.PolyColor
 import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 //?}
@@ -54,7 +53,39 @@ object HyBedWarsConfig : Config(
     //? if forge {
     //@Exclude
     //?}
-    private const val CATEGORY_BEDWARS = "BedWars"
+    private const val CATEGORY_GENERAL = "General"
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_HEIGHT_OVERLAY = "Height Overlay"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Height Overlay",
+        description = "Darken blocks on height limit in Hypixel BedWars",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_HEIGHT_OVERLAY
+    )
+    var heightOverlay = true
+
+    @Slider(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Opacity",
+        description = "Set opacity of height overlay blocks darkening in Hypixel BedWars",
+        min = 0f, max = 100f, step = 1f,
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_HEIGHT_OVERLAY
+    )
+    var heightOverlayOpacity = 67
 
     //? if forge {
     //@Exclude
@@ -69,7 +100,7 @@ object HyBedWarsConfig : Config(
             //?}
             "Use Middle Click in Shop",
         description = "Replace middle click with left click in BedWars item shop",
-        category = CATEGORY_BEDWARS,
+        category = CATEGORY_GENERAL,
         subcategory = SUBCATEGORY_SHOP
     )
     var middleClickInBedwarsShop = true
@@ -89,7 +120,7 @@ object HyBedWarsConfig : Config(
     *///?} else {
     @Info(
         title = "Resource Display can be edited by clicking Edit HUD in the top left corner",
-        category = CATEGORY_BEDWARS,
+        category = CATEGORY_GENERAL,
         subcategory = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY
     )
     var bedwarsResourceDisplayInfo: Nothing? = null

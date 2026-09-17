@@ -64,7 +64,7 @@ public abstract class MiddleClickGUIItemsMixin {
             )
     )
             //?}
-    private void hymod$useMiddleClick(
+    private void hybedwars$useMiddleClick(
             //? if 1.8.9 {
             //GuiContainer instance,
             //?} else {
@@ -94,7 +94,7 @@ public abstract class MiddleClickGUIItemsMixin {
         };
         *///?}
 
-        if (hymod$shouldCallOriginal(instance, slot, clickedButton, clickType)) {
+        if (hybedwars$shouldCallOriginal(instance, slot, clickedButton, clickType)) {
             //? if 1.8.9 {
             //handleMouseClick(slot, slotId, clickedButton, clickType);
             //?} else {
@@ -135,7 +135,7 @@ public abstract class MiddleClickGUIItemsMixin {
     }
 
 
-    private static boolean hymod$shouldCallOriginal(
+    private static boolean hybedwars$shouldCallOriginal(
             //? if 1.8.9 {
             //GuiContainer instance,
             //?} else {
@@ -182,7 +182,7 @@ public abstract class MiddleClickGUIItemsMixin {
             //?}
                 : tooltip
         ) {
-            if (hymod$moreThanOneButton(
+            if (hybedwars$moreThanOneButton(
                     line
                             //? if fabric {
                             .getString()
@@ -211,7 +211,7 @@ public abstract class MiddleClickGUIItemsMixin {
                 && !containerTitle.equals("Upgrades & Traps"));
     }
 
-    private static boolean hymod$moreThanOneButton(String text) {
+    private static boolean hybedwars$moreThanOneButton(String text) {
         text = text.toLowerCase();
 
         return text.contains("right-click")

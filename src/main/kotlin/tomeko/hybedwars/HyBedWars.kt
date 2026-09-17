@@ -9,8 +9,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 //?} else {
 import net.fabricmc.api.ClientModInitializer
 //?}
-import tomeko.hybedwars.commands.HyBedWarsCommand
+import tomeko.hybedwars.commands.*
 import tomeko.hybedwars.config.*
+import tomeko.hybedwars.heightlimit.*
 import tomeko.hybedwars.hud.*
 import tomeko.hybedwars.location.*
 import tomeko.hybedwars.utils.*
@@ -53,6 +54,9 @@ class HyBedWars
         HyBedWarsCommand.register()
 
         HyBedWarsConfig.register()
+
+        HeightLimitData.register()
+        HeightLimitRenderer.register()
 
         //? if !forge {
         BedwarsResourceDisplay.register()

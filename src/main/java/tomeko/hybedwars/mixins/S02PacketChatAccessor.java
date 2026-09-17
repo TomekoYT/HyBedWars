@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface S02PacketChatAccessor {
     @Mutable
     @Accessor("chatComponent")
-    void hymod$setChatComponent(IChatComponent component);
+    void hybedwars$setChatComponent(IChatComponent component);
 
     @Accessor("type")
-    byte hymod$getType();
+    byte hybedwars$getType();
 }
 *///?}

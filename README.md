@@ -12,17 +12,20 @@
 
 # HyMod
 
-Minecraft mod for Hypixel adding BedWars QoL features like resource display
+Minecraft mod for Hypixel adding BedWars QoL features like resource display, height limit and more!
 
 ## Features
 
-### BedWars
+### Height Overlay
 
-#### Shop
+- Darken blocks on height limit
+- Set opacity of height overlay blocks darkening
+
+### Shop
 
 - Use Middle Click in Shop
 
-#### Resource Display
+### Resource Display
 
 - Show Iron, Gold, Diamond, Emerald
 - Show Inventory, Ender Chest, Total

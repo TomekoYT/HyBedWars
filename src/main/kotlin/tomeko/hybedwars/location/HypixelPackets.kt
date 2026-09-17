@@ -27,6 +27,9 @@ object HypixelPackets {
     var inBedwars = false
         private set
 
+    var currentMapName: String? = null
+        private set
+
     fun register() {
         HypixelModAPI.getInstance().createHandler(ClientboundHelloPacket::class.java, { onHypixel = true })
         //? if forge {
@@ -67,6 +70,13 @@ object HypixelPackets {
 
         inBedwars = serverTypeName == "Bed Wars"
 
+        if (!packet.map.isPresent) {
+            disableMaps()
+        } else {
+            currentMapName = packet.map.orElse(null)
+            Debug.log("mapName: $currentMapName <")
+        }
+
         if (!packet.mode.isPresent) {
             disableModes()
             return
@@ -79,11 +89,16 @@ object HypixelPackets {
     private fun disableAll() {
         currentServerName = null
         disableServerTypes()
+        disableMaps()
         disableModes()
     }
 
     private fun disableServerTypes() {
         inBedwars = false
+    }
+
+    private fun disableMaps() {
+        currentMapName = null
     }
 
     private fun disableModes() {
