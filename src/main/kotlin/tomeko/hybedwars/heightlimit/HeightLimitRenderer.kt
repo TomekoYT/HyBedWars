@@ -71,7 +71,7 @@ object HeightLimitRenderer {
 
         val map = HypixelPackets.currentMapName ?: return
         val limits = HeightLimitData.getBedwarsLimits(map) ?: return
-        val targetY = limits.maxBuild
+        val targetY = limits.maxBuild - 1
 
         //? if 1.8.9 {
         //val partialTicks = event.partialTicks

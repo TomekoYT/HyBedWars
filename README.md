@@ -10,7 +10,7 @@
   <img alt="youtube" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/youtube-singular_vector.svg">
 </a>
 
-# HyMod
+# HyBedWars
 
 Minecraft mod for Hypixel adding BedWars QoL features like resource display, height limit and more!
 

@@ -7,12 +7,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.List;
 
 //? if 1.8.9 {
-/*import net.minecraft.client.gui.inventory.GuiChest;
+/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.Redirect;
 *///?} else {
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -37,33 +37,20 @@ import tomeko.hybedwars.location.HypixelPackets;
 @Mixin(AbstractContainerScreen.class)
 //?}
 public abstract class MiddleClickGUIItemsMixin {
-    //? if 1.8.9 {
-    /*@Shadow
-    protected abstract void handleMouseClick(Slot slot, int slotId, int clickedButton, int clickType);
-    *///?}
-
-    //? if 1.8.9 {
-    /*@Redirect(
-            method = "mouseClicked",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/inventory/GuiContainer;handleMouseClick(Lnet/minecraft/inventory/Slot;III)V"
-            )
-    )
-    *///?} else {
     @WrapOperation(
             method = "mouseClicked",
             at = @At(
                     value = "INVOKE",
                     target =
-                            //? if >= 26.3 {
+                            //? if 1.8.9 {
+                            //"Lnet/minecraft/client/gui/inventory/GuiContainer;handleMouseClick(Lnet/minecraft/inventory/Slot;III)V"
+                            //?} elif >= 26.3 {
                             //"Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;ILnet/minecraft/client/input/MouseButtonEvent;Lnet/minecraft/world/inventory/ContainerInput;)V"
                             //?} else {
                             "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V"
                     //?}
             )
     )
-            //?}
     private void hybedwars$useMiddleClick(
             //? if 1.8.9 {
             //GuiContainer instance,
@@ -78,13 +65,11 @@ public abstract class MiddleClickGUIItemsMixin {
             int clickedButton,
             //?}
             //? if 1.8.9 {
-            //int clickType
+            //int clickType,
             //?} else {
             ContainerInput clickType,
             //?}
-            //? if fabric {
             Operation<Void> original
-            //?}
     ) {
         //? if >= 26.3 {
         /*int clickedButton = switch (event.button()) {
@@ -95,9 +80,6 @@ public abstract class MiddleClickGUIItemsMixin {
         *///?}
 
         if (hybedwars$shouldCallOriginal(instance, slot, clickedButton, clickType)) {
-            //? if 1.8.9 {
-            //handleMouseClick(slot, slotId, clickedButton, clickType);
-            //?} else {
             original.call(
                     instance,
                     slot,
@@ -109,13 +91,9 @@ public abstract class MiddleClickGUIItemsMixin {
                     //?}
                     clickType
             );
-            //?}
             return;
         }
 
-        //? if 1.8.9 {
-        //handleMouseClick(slot, slotId, 2, 3);
-        //?} else {
         original.call(
                 instance,
                 slot,
@@ -125,13 +103,14 @@ public abstract class MiddleClickGUIItemsMixin {
                 //?} else {
                 2,
                 //?}
-                //? if >= 26.1 {
+                //? if 1.8.9 {
+                //3
+                //?} elif >= 26.1 {
                 ContainerInput.CLONE
                 //?} else {
                 //ClickType.CLONE
                 //?}
         );
-        //?}
     }
 
 
