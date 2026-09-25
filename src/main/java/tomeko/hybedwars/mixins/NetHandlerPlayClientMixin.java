@@ -1,7 +1,8 @@
 package tomeko.hybedwars.mixins;
 
 //? if ornithe {
-/*import net.minecraft.client.network.NetHandlerPlayClient;
+/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.IChatComponent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,42 +13,59 @@ import tomeko.hybedwars.event.ClientReceiveMessageEvents;
 
 @Mixin(NetHandlerPlayClient.class)
 public abstract class NetHandlerPlayClientMixin {
-    @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
-    private void hybedwars$onHandleChat(S02PacketChat packetIn, CallbackInfo ci) {
-        IChatComponent message = packetIn.getChatComponent();
+    @Inject(
+            method = "handleChat",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/network/PacketThreadUtil;checkThreadAndEnqueue(Lnet/minecraft/network/Packet;Lnet/minecraft/network/INetHandler;Lnet/minecraft/util/IThreadListener;)V",
+                    shift = At.Shift.AFTER
+            ),
+            cancellable = true
+    )
+    private void hybedwars$onHandleChat(S02PacketChat packet, CallbackInfo ci) {
+        boolean overlay = packet.getType() == 2;
+
+        IChatComponent message = hybedwars$process(packet.getChatComponent(), overlay);
+
+        ci.cancel();
+
         if (message == null) {
             return;
         }
 
-        boolean isChat = packetIn.getType() == 0;
-        boolean overlay = packetIn.getType() == 2;
+        Minecraft mc = Minecraft.getMinecraft();
+        if (overlay) {
+            mc.ingameGUI.setRecordPlaying(message, false);
+        } else {
+            mc.ingameGUI.getChatGUI().printChatMessage(message);
+        }
+    }
 
-        if (isChat) {
-            if (!ClientReceiveMessageEvents.ALLOW_CHAT.invoker().allowReceiveChatMessage(message)) {
-                ci.cancel();
-                return;
-            }
+    private static IChatComponent hybedwars$process(IChatComponent message, boolean overlay) {
+        boolean allowed = ClientReceiveMessageEvents.ALLOW_GAME.invoker().allowReceiveGameMessage(message, overlay);
+        if (!overlay) {
+            allowed &= ClientReceiveMessageEvents.ALLOW_CHAT.invoker().allowReceiveChatMessage(message);
+        }
+        if (!allowed) {
+            return null;
+        }
+
+        message = ClientReceiveMessageEvents.MODIFY_GAME.invoker().modifyReceivedGameMessage(message, overlay);
+        if (message == null) {
+            return null;
+        }
+        if (!overlay) {
             message = ClientReceiveMessageEvents.MODIFY_CHAT.invoker().modifyReceivedChatMessage(message);
-        } else {
-            if (!ClientReceiveMessageEvents.ALLOW_GAME.invoker().allowReceiveGameMessage(message, overlay)) {
-                ci.cancel();
-                return;
+            if (message == null) {
+                return null;
             }
-            message = ClientReceiveMessageEvents.MODIFY_GAME.invoker().modifyReceivedGameMessage(message, overlay);
         }
 
-        if (message == null) {
-            ci.cancel();
-            return;
-        }
-
-        ((S02PacketChatAccessor) packetIn).hybedwars$setChatComponent(message);
-
-        if (isChat) {
+        ClientReceiveMessageEvents.GAME.invoker().onReceiveGameMessage(message, overlay);
+        if (!overlay) {
             ClientReceiveMessageEvents.CHAT.invoker().onReceiveChatMessage(message);
-        } else {
-            ClientReceiveMessageEvents.GAME.invoker().onReceiveGameMessage(message, overlay);
         }
+        return message;
     }
 }
 *///?}
