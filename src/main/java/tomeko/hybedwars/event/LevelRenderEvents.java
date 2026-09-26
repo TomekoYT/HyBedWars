@@ -1,6 +1,6 @@
 package tomeko.hybedwars.event;
 
-//? if ornithe {
+//? if 1.8.9 {
 /*public final class LevelRenderEvents {
     private LevelRenderEvents() {}
 
