@@ -1,6 +1,6 @@
 package tomeko.hybedwars.event;
 
-//? if ornithe {
+//? if 1.8.9 {
 /*import net.minecraft.util.IChatComponent;
 
 public final class ClientReceiveMessageEvents {

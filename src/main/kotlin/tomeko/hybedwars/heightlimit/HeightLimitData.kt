@@ -2,18 +2,12 @@ package tomeko.hybedwars.heightlimit
 
 import com.google.gson.JsonParser
 import tomeko.hybedwars.utils.Debug
+import java.net.HttpURLConnection
 import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 import java.util.Locale
-import java.util.concurrent.CompletableFuture
 
 object HeightLimitData {
-    private const val URL =
-        "https://data-v2.polyfrost.org/hlm/trans-rights-are-human-rights.json"
-
-    private val client = HttpClient.newHttpClient()
+    private const val URL = "https://data-v2.polyfrost.org/hlm/trans-rights-are-human-rights.json"
 
     @Volatile
     private var bedwarsMaps: Map<String, Limits> = emptyMap()
@@ -28,21 +22,30 @@ object HeightLimitData {
     }
 
     fun register() {
-        CompletableFuture.runAsync {
-            try {
-                val request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build()
-                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        Thread {
+            var connection: HttpURLConnection? = null
 
-                if (response.statusCode() !in 200..299) {
-                    Debug.log("Height limit HTTP error: ${response.statusCode()}")
-                    return@runAsync
+            try {
+                connection = URI.create(URL).toURL().openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+
+                val responseCode = connection.responseCode
+
+                if (responseCode !in 200..299) {
+                    Debug.log("Height limit HTTP error: $responseCode")
+                    return@Thread
                 }
 
-                val root = JsonParser.parseString(response.body())
+                val body = connection.inputStream.bufferedReader().use { it.readText() }
+                val root =
+                    //? if forge
+                    //JsonParser().parse(body)
+                    //? else
+                    JsonParser.parseString(body)
 
                 if (!root.isJsonArray) {
                     Debug.log("[HyBedwars] Height limit JSON root is not an array")
-                    return@runAsync
+                    return@Thread
                 }
 
                 val result = HashMap<String, Limits>()
@@ -77,8 +80,10 @@ object HeightLimitData {
             } catch (e: Exception) {
                 Debug.log("Failed to load height limits")
                 e.printStackTrace()
+            } finally {
+                connection?.disconnect()
             }
-        }
+        }.start()
     }
 
     fun getBedwarsLimits(mapName: String): Limits? {

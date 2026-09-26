@@ -1,6 +1,6 @@
 package tomeko.hybedwars.mixins;
 
-//? if ornithe {
+//? if 1.8.9 {
 /*import net.minecraft.client.renderer.EntityRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

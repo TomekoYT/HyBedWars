@@ -1,6 +1,6 @@
 package tomeko.hybedwars.mixins;
 
-//? if ornithe {
+//? if 1.8.9 {
 /*import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.server.S02PacketChat;

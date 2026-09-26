@@ -81,7 +81,11 @@ object HyBedWarsConfig : Config(
             //?}
             "Opacity",
         description = "Set opacity of height overlay blocks darkening in Hypixel BedWars",
-        min = 0f, max = 100f, step = 1f,
+        min = 0f, max = 100f,
+        //? forge
+        //step = 1,
+        //? else
+        step = 1f,
         category = CATEGORY_GENERAL,
         subcategory = SUBCATEGORY_HEIGHT_OVERLAY
     )
@@ -114,7 +118,7 @@ object HyBedWarsConfig : Config(
     //? if forge {
     /*@HUD(
         name = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY,
-        category = CATEGORY_BEDWARS
+        category = CATEGORY_GENERAL
     )
     var bedwarsResourceDisplay = BedwarsResourceDisplay()
     *///?} else {
