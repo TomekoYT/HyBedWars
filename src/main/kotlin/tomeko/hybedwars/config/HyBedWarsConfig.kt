@@ -160,4 +160,20 @@ object HyBedWarsConfig : Config(
         category = CATEGORY_DEBUG,
     )
     var debugModeEnabled = false
+
+    @Slider(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Debug Mode Height",
+        min = 0f, max = 100f,
+        //? if forge
+        //step = 1,
+        //? else
+        step = 1f,
+        category = CATEGORY_DEBUG
+    )
+    var debugModeHeight = 100
 }
