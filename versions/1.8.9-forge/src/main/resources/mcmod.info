@@ -11,6 +11,6 @@
       "Tomeko"
     ],
     "logoFile": "assets/${mod_id}/icon.png",
-    "dependencies": ["hypixel_mod_api"]
+    "dependencies": ["mixinbooter", "hypixel_mod_api"]
   }
 ]

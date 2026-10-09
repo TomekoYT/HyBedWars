@@ -1,5 +1,7 @@
 package tomeko.hybedwars.plugins;
 
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -18,13 +20,6 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-//? if forge {
-//import org.spongepowered.asm.lib.tree.ClassNode;
-//?} else {
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
-import org.objectweb.asm.tree.ClassNode;
-//?}
-
 public class MixinPlugin implements IMixinConfigPlugin {
     private static final List<MixinPlugin> mixinPlugins = new ArrayList<>();
 
@@ -36,9 +31,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        //? if !forge {
         MixinExtrasBootstrap.init();
-        //?}
         this.mixinPackage = mixinPackage;
         mixinPlugins.add(this);
     }

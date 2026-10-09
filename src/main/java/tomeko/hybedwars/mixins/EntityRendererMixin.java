@@ -10,7 +10,7 @@ import tomeko.hybedwars.event.LevelRenderEvents;
 import tomeko.hybedwars.event.RenderWorldLastEvent;
 
 @Mixin(EntityRenderer.class)
-public abstract class EntityRendererMixin {
+abstract class EntityRendererMixin {
     @Inject(method = "renderWorld", at = @At("HEAD"))
     private void hybedwars$renderStart(float partialTicks, long finishTimeNano, CallbackInfo ci) {
         LevelRenderEvents.START.invoker().onStart(new RenderWorldLastEvent(partialTicks));
