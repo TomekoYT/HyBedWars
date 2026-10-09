@@ -1,18 +1,14 @@
 package tomeko.hybedwars.mixins;
 
-//? if 1.8.9 {
-/*//? if ornithe {
-/^import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-^///?}
-import net.minecraft.client.Minecraft;
+//? if 1.8.9 {
+/*import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 *///?} else {
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 //? if >= 26.3 {
@@ -27,13 +23,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
-//? if forge {
-//import org.spongepowered.asm.mixin.Shadow;
-//?}
 import org.spongepowered.asm.mixin.injection.At;
-//? if forge {
-//import org.spongepowered.asm.mixin.injection.Redirect;
-//?}
 import tomeko.hybedwars.config.HyBedWarsConfig;
 import tomeko.hybedwars.location.HypixelPackets;
 
@@ -44,21 +34,7 @@ import java.util.List;
 //?} else {
 @Mixin(AbstractContainerScreen.class)
 //?}
-public abstract class MiddleClickGUIItemsMixin {
-    //? if forge {
-    /*@Shadow
-    protected abstract void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType);
-    *///?}
-
-    //? if forge {
-    /*@Redirect(
-            method = "mouseClicked",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/inventory/GuiContainer;handleMouseClick(Lnet/minecraft/inventory/Slot;III)V"
-            )
-    )
-    *///?} else {
+abstract class MiddleClickGUIItemsMixin {
     @WrapOperation(
             method = "mouseClicked",
             at = @At(
@@ -73,7 +49,6 @@ public abstract class MiddleClickGUIItemsMixin {
                     //?}
             )
     )
-    //?}
     private void hybedwars$useMiddleClick(
             //? if 1.8.9
             //GuiContainer instance,
@@ -85,13 +60,10 @@ public abstract class MiddleClickGUIItemsMixin {
             //MouseButtonEvent event,
             //? else
             int clickedButton,
-            //? if forge
-            //int clickType
-            //? else if ornithe
+            //? if 1.8.9
             //int clickType,
             //? else
             ContainerInput clickType,
-            //? if !forge
             Operation<Void> original
     ) {
         //? if >= 26.3 {
@@ -103,9 +75,6 @@ public abstract class MiddleClickGUIItemsMixin {
         *///?}
 
         if (hybedwars$shouldCallOriginal(instance, slot, clickedButton, clickType)) {
-            //? if forge{
-            //handleMouseClick(slot, slotId, clickedButton, clickType);
-            //?} else {
             original.call(
                     instance,
                     slot,
@@ -117,13 +86,9 @@ public abstract class MiddleClickGUIItemsMixin {
                     //?}
                     clickType
             );
-            //?}
             return;
         }
 
-        //? if forge {
-        //handleMouseClick(slot, slotId, 2, 3);
-        //?} else {
         original.call(
                 instance,
                 slot,
@@ -141,7 +106,6 @@ public abstract class MiddleClickGUIItemsMixin {
                 //ClickType.CLONE
                 //?}
         );
-        //?}
     }
 
 
