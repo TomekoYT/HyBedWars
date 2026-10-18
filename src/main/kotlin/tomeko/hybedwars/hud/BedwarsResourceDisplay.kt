@@ -224,6 +224,21 @@ class BedwarsResourceDisplay
     )
     var showTotal = true
 
+    @Dropdown(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+        //?}
+        "Icon Side",
+        options = ["Left", "Right"],
+        //? if !forge {
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_RESOURCES
+        //?}
+    )
+    var side = 0
+
     //? if !forge {
     @Switch(
         title = "Show Background",
@@ -410,16 +425,22 @@ class BedwarsResourceDisplay
 
             val stack = ItemStack(item)
             val itemY = (i * offset).toInt()
-            val iconX = 0
-            val textX = (iconSize + iconPadding).toInt()
+            val text = getText(item)
+            val textWidth =
+            //? if 1.8.9 {
+            //mc.fontRendererObj.getStringWidth(text)
+                //?} else {
+                mc.font.width(text)
+            //?}
+
+            val textX = if (side == 1) 0 else (iconSize + iconPadding).toInt()
+            val iconX = if (side == 1) (textWidth + iconPadding).toInt()
+            else 0
 
             //? if 1.8.9 {
             /*RenderHelper.enableGUIStandardItemLighting()
             mc.renderItem.zLevel = 200f
-            *///?}
-
-            //? if 1.8.9 {
-            /*mc.renderItem.renderItemAndEffectIntoGUI(stack, iconX, itemY)
+            mc.renderItem.renderItemAndEffectIntoGUI(stack, iconX, itemY)
             mc.renderItem.renderItemOverlayIntoGUI(
                 mc.fontRendererObj,
                 stack,
@@ -427,6 +448,7 @@ class BedwarsResourceDisplay
                 0,
                 ""
             )
+            RenderHelper.disableStandardItemLighting()
             *///?} else {
             mcCtx.item(
                 stack,
@@ -441,7 +463,7 @@ class BedwarsResourceDisplay
 
             //? if forge {
             /*TextRenderer.drawScaledString(
-                getText(item),
+                text,
                 textX.toFloat(),
                 itemY + mc.fontRendererObj.FONT_HEIGHT / 2f,
                 textColor.rgb,
@@ -461,7 +483,7 @@ class BedwarsResourceDisplay
             if (textShadow) {
                 //? if ornithe {
                 /*mc.fontRendererObj.drawString(
-                    getText(item),
+                    text,
                     (textX + 1).toFloat(),
                     (textY + 1).toFloat(),
                     textShadowColor.argb,
@@ -470,7 +492,7 @@ class BedwarsResourceDisplay
                 *///?} else {
                 mcCtx.text(
                     mc.font,
-                    getText(item),
+                    text,
                     textX + 1,
                     textY + 1,
                     textShadowColor.argb,
@@ -481,7 +503,7 @@ class BedwarsResourceDisplay
 
             //? if ornithe {
             /*mc.fontRendererObj.drawString(
-                getText(item),
+                text,
                 textX.toFloat(),
                 textY.toFloat(),
                 txtColor.argb,
@@ -490,7 +512,7 @@ class BedwarsResourceDisplay
             *///?} else {
             mcCtx.text(
                 mc.font,
-                getText(item),
+                text,
                 textX,
                 textY,
                 txtColor.argb,
