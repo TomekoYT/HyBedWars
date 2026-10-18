@@ -25,6 +25,21 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 
 - Use Middle Click in Shop
 
+### Colored Beds
+
+- Make beds a different color depending on the team they are on
+
+### Potion Effects
+
+- Notify Mining Fatigue
+- Disable Mining Fatigue Notification in SkyBlock
+
+### Sound
+
+- Notify When Blocks Run Out
+- Block Number
+- Block Notify Sound
+
 ### Resource Display
 
 - Show Iron, Gold, Diamond, Emerald
