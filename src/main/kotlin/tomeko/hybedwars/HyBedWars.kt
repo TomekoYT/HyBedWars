@@ -9,6 +9,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 //?} else {
 import net.fabricmc.api.ClientModInitializer
 //?}
+import tomeko.hybedwars.blocknotify.*
+//? if 1.8.9
+//import tomeko.hybedwars.coloredbeds.*
 import tomeko.hybedwars.commands.*
 import tomeko.hybedwars.config.*
 import tomeko.hybedwars.heightlimit.*
@@ -64,7 +67,12 @@ class HyBedWars
 
         HypixelPackets.register()
 
+        //? if 1.8.9
+        //ColoredBeds.register()
+
         ItemTracker.register()
+
+        BlockNotifier.register()
 
         Debug.forceLog("${Constants.MOD_VERSION} Initialized!")
     }

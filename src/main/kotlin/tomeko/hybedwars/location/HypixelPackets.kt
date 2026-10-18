@@ -1,5 +1,6 @@
 package tomeko.hybedwars.location
 
+import net.hypixel.data.type.ServerType
 import net.hypixel.modapi.HypixelModAPI
 import net.hypixel.modapi.packet.impl.clientbound.ClientboundHelloPacket
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
@@ -24,7 +25,16 @@ object HypixelPackets {
     var currentServerName: String? = null
         private set
 
+    var currentServerType: ServerType? = null
+        private set
+
+    var inGame = false
+        private set
+
     var inBedwars = false
+        private set
+
+    var currentMode: String? = null
         private set
 
     var currentMapName: String? = null
@@ -64,6 +74,8 @@ object HypixelPackets {
         }
 
         currentServerName = packet.serverName
+        currentServerType = packet.serverType.get()
+        inGame = !packet.lobbyName.isPresent
 
         val serverTypeName = packet.serverType.get().name
         Debug.log("serverTypeName: $serverTypeName <")
@@ -83,6 +95,7 @@ object HypixelPackets {
         }
 
         val modeName = packet.mode.get()
+        currentMode = modeName
         Debug.log("modeName: $modeName <")
     }
 
@@ -94,6 +107,8 @@ object HypixelPackets {
     }
 
     private fun disableServerTypes() {
+        currentServerType = null
+        inGame = false
         inBedwars = false
     }
 
@@ -102,5 +117,6 @@ object HypixelPackets {
     }
 
     private fun disableModes() {
+        currentMode = null
     }
 }
