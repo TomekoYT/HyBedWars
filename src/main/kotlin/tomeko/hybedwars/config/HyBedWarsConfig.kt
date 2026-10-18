@@ -14,6 +14,8 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.*
 //? if forge {
 //import tomeko.hybedwars.hud.BedwarsResourceDisplay
 //?}
+//? if 1.8.9
+//import tomeko.hybedwars.coloredbeds.ColoredBeds
 import tomeko.hybedwars.utils.Constants
 
 object HyBedWarsConfig : Config(
@@ -33,20 +35,28 @@ object HyBedWarsConfig : Config(
 ) {
     //? if !forge {
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
-
+        "notifyMiningFatigue" to listOf("disableNotifyMiningFatigueSkyblock"),
+        "blockNotify" to listOf("blockNumber", "blockNotifySound"),
     )
     //?}
 
     fun register() {
         //? if forge {
-        //initialize()
-        //?} else {
+        /*initialize()
+        addDependency("disableNotifyMiningFatigueSkyblock", "notifyMiningFatigue")
+        addDependency("blockNumber", "blockNotify")
+        addDependency("blockNotifySound", "blockNotify")
+        //? if 1.8.9
+        addListener("coloredBeds") { ColoredBeds.reloadRenderers() }
+        *///?} else {
         preload()
         for ((condition, dependencies) in DEPENDENCIES) {
             for (dependency in dependencies) {
                 addDependency(dependency, condition)
             }
         }
+        //? if 1.8.9
+        //addCallback("coloredBeds", Runnable { ColoredBeds.reloadRenderers() })
         //?}
     }
 
@@ -108,6 +118,111 @@ object HyBedWarsConfig : Config(
         subcategory = SUBCATEGORY_SHOP
     )
     var middleClickInBedwarsShop = true
+
+    //? if forge {
+    //@Exclude
+    //?}
+    //? if 1.8.9
+    //private const val SUBCATEGORY_COLORED_BEDS = "Colored Beds"
+
+    //? if forge {
+    /*@Switch(
+        name = "Colored Beds",
+        description = "Make beds a different color depending on the team they are on.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_COLORED_BEDS
+    )
+    var coloredBeds = true
+    *///?} elif 1.8.9 {
+    /*@Switch(
+        title = "Colored Beds",
+        description = "Make beds a different color depending on the team they are on.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_COLORED_BEDS
+    )
+    var coloredBeds = true
+    *///?}
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_POTION_EFFECTS = "Potion Effects"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Notify Mining Fatigue",
+        description = "Send a notification when you get mining fatigue.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_POTION_EFFECTS
+    )
+    var notifyMiningFatigue = true
+
+    @Checkbox(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Disable Mining Fatigue Notification in SkyBlock",
+        description = "Disable the mining fatigue notification in SkyBlock.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_POTION_EFFECTS
+    )
+    var disableNotifyMiningFatigueSkyblock = true
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_SOUND = "Sound"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Notify When Blocks Run Out",
+        description = "Pings you via a sound when your blocks are running out.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_SOUND
+    )
+    var blockNotify = false
+
+    @Slider(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Block Number",
+        description = "Modify the number of blocks you (don't?) have for the Notify When Blocks Run Out feature to work.",
+        min = 4f, max = 20f,
+        //? if forge
+        //step = 1,
+        //? else
+        step = 1f,
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_SOUND
+    )
+    var blockNumber = 10
+
+    @Dropdown(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Block Notify Sound",
+        description = "Choose what sound to play.",
+        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_SOUND
+    )
+    var blockNotifySound = 0
 
 
     //? if forge {
