@@ -63,6 +63,9 @@ class HyBedWars
 
         //? if !forge {
         BedwarsResourceDisplay.register()
+        HeightLimitHud.register()
+        MapNameHud.register()
+        GameModeHud.register()
         //?}
 
         HypixelPackets.register()

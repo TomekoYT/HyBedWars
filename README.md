@@ -45,3 +45,9 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 - Show Iron, Gold, Diamond, Emerald
 - Show Inventory, Ender Chest, Total
 - Works with Hypixel Ender Chest punching feature
+
+### Info HUDs
+
+- Height Limit: blocks left until the map's build height limit (optional limit Y and color by distance)
+- Map Name
+- Game Mode (Solo, Doubles, 3v3v3v3, 4v4v4v4, 4v4, Dreams modes and more)
