@@ -28,6 +28,7 @@ base {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     google()
 

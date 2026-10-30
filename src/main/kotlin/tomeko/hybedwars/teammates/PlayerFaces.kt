@@ -13,15 +13,11 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.client.resources.DefaultPlayerSkin
 //?}
-import org.jetbrains.skia.Bitmap
-import org.jetbrains.skia.ColorAlphaType
-import org.jetbrains.skia.ColorType
-import org.jetbrains.skia.Image
-import org.jetbrains.skia.ImageInfo
+import org.polyfrost.compose.render.PolyBitmap
 import tomeko.hybedwars.utils.Debug
 
 /**
- * Player faces (head plus hat layer) as 8x8 Skia images, for drawing heads in Compose HUDs.
+ * Player faces (head plus hat layer) as 8x8 bitmaps, for drawing heads in Compose HUDs.
  *
  * Compose HUDs can't draw Minecraft textures directly, so each skin's pixels are read once on the
  * client tick (where touching textures is safe) and cached. Until a face is ready, [get] returns null.
@@ -32,7 +28,7 @@ object PlayerFaces {
     private const val MAX_READS_PER_TICK = 8
     private const val RETRY_TICKS = 40
 
-    private val faces = HashMap<String, Image>()
+    private val faces = HashMap<String, PolyBitmap>()
     private val pending = LinkedHashMap<String, SkinId>()
     private val failedAt = HashMap<String, Int>()
     private var ticks = 0
@@ -43,7 +39,7 @@ object PlayerFaces {
 
     /** The face for [skin] (null means the default skin), or null while it hasn't been read yet. */
     @Synchronized
-    fun get(skin: SkinId?): Image? {
+    fun get(skin: SkinId?): PolyBitmap? {
         val id = skin ?: defaultSkin()
         val key = id.toString()
         faces[key]?.let { return it }
@@ -86,8 +82,8 @@ object PlayerFaces {
         DefaultPlayerSkin.getDefaultTexture()
         //?}
 
-    /** Reads the face and hat layer of a skin texture into an 8x8 image. */
-    private fun readFace(id: SkinId): Image? {
+    /** Reads the face and hat layer of a skin texture into an 8x8 bitmap. */
+    private fun readFace(id: SkinId): PolyBitmap? {
         val skin = readSkin(id) ?: return null
         val (width, pixelAt) = skin
         if (width < 64) return null
@@ -101,7 +97,7 @@ object PlayerFaces {
                 face[y * FACE + x] = over(hat, head or (0xFF shl 24))
             }
         }
-        return toImage(face)
+        return toBitmap(face)
     }
 
     /** Skin width and a way to read ARGB pixels from it, or null if it isn't readable yet. */
@@ -152,8 +148,16 @@ object PlayerFaces {
 
         // Default skins are plain resources
         val bytes = mc.resourceManager.getResource(id).orElse(null)?.open()?.use { it.readBytes() } ?: return null
-        val bitmap = Bitmap.makeFromImage(Image.makeFromEncoded(bytes))
-        return bitmap.width to { x, y -> bitmap.getColor(x, y) }
+        val bitmap = PolyBitmap.decode(bytes) ?: return null
+        val rgba = bitmap.pixels
+        return bitmap.width to { x, y ->
+            val i = (y * bitmap.width + x) * 4
+            val r = rgba[i].toInt() and 0xFF
+            val g = rgba[i + 1].toInt() and 0xFF
+            val b = rgba[i + 2].toInt() and 0xFF
+            val a = rgba[i + 3].toInt() and 0xFF
+            (a shl 24) or (r shl 16) or (g shl 8) or b
+        }
         //?}
     }
 
@@ -171,7 +175,7 @@ object PlayerFaces {
         return (0xFF shl 24) or (mix(16) shl 16) or (mix(8) shl 8) or mix(0)
     }
 
-    private fun toImage(argb: IntArray): Image {
+    private fun toBitmap(argb: IntArray): PolyBitmap {
         val bytes = ByteArray(argb.size * 4)
         for ((i, c) in argb.withIndex()) {
             bytes[i * 4] = (c shr 16).toByte()
@@ -179,7 +183,7 @@ object PlayerFaces {
             bytes[i * 4 + 2] = c.toByte()
             bytes[i * 4 + 3] = (c ushr 24).toByte()
         }
-        return Image.makeRaster(ImageInfo(FACE, FACE, ColorType.RGBA_8888, ColorAlphaType.UNPREMUL), bytes, FACE * 4)
+        return PolyBitmap(FACE, FACE, bytes)
     }
 }
 //?}

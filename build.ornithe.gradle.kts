@@ -17,8 +17,14 @@ val hypixelModApiVersion = project.property("hypixel_mod_api_version") as String
 val modMenuVersion = project.property("mod_menu_version") as String
 
 repositories {
+    mavenLocal()
     mavenCentral()
     google()
+
+    exclusiveContent {
+        forRepository { mavenCentral() }
+        filter { includeModule("org.lwjgl", "lwjgl-stb") }
+    }
 
     maven("https://maven.cloverclient.com/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
