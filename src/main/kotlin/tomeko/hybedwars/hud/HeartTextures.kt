@@ -7,34 +7,32 @@ import net.minecraft.client.Minecraft
 //?} else {
 import net.minecraft.resources.Identifier
 //?}
-import org.jetbrains.skia.Canvas
-import org.jetbrains.skia.FilterMipmap
-import org.jetbrains.skia.FilterMode
-import org.jetbrains.skia.Image
-import org.jetbrains.skia.MipmapMode
-import org.jetbrains.skia.Rect
+import org.polyfrost.compose.render.FilterQuality
+import org.polyfrost.compose.render.PolyBitmap
+import org.polyfrost.compose.render.PolyColor
+import org.polyfrost.compose.render.RenderContext
 import tomeko.hybedwars.utils.Debug
 
 /**
- * Vanilla heart textures as Skia images, for drawing hearts inside Compose HUDs.
+ * Vanilla heart textures as bitmaps, for drawing hearts inside Compose HUDs.
  * Read from the game's resources (so resource packs apply) the first time they're needed.
  */
 object HeartTextures {
-    private class Sprite(val image: Image, val src: Rect)
-
-    private val NEAREST = FilterMipmap(FilterMode.NEAREST, MipmapMode.NONE)
+    private class Sprite(val image: PolyBitmap, val u0: Float = 0f, val v0: Float = 0f, val u1: Float = 1f, val v1: Float = 1f)
 
     private var loaded = false
     private var container: Sprite? = null
     private var full: Sprite? = null
 
     /** Draws an empty heart outline, filled in red when [filled]. */
-    fun draw(canvas: Canvas, x: Float, y: Float, w: Float, h: Float, filled: Boolean) {
+    fun draw(ctx: RenderContext, x: Float, y: Float, w: Float, h: Float, filled: Boolean) {
         load()
-        val dst = Rect.makeXYWH(x, y, w, h)
-        container?.let { canvas.drawImageRect(it.image, it.src, dst, NEAREST, null, true) }
-        if (filled) full?.let { canvas.drawImageRect(it.image, it.src, dst, NEAREST, null, true) }
+        container?.let { ctx.draw(it, x, y, w, h) }
+        if (filled) full?.let { ctx.draw(it, x, y, w, h) }
     }
+
+    private fun RenderContext.draw(sprite: Sprite, x: Float, y: Float, w: Float, h: Float) =
+        image(sprite.image, x, y, w, h, sprite.u0, sprite.v0, sprite.u1, sprite.v1, PolyColor.WHITE, FilterQuality.None)
 
     private fun load() {
         if (loaded) return
@@ -43,20 +41,20 @@ object HeartTextures {
         try {
             //? if ornithe {
             /*// 1.8.9 keeps every HUD icon in one 256x256 sheet, scaled up by HD resource packs
-            val sheet = Image.makeFromEncoded(read("textures/gui/icons.png"))
-            val px = sheet.width / 256f
-            container = Sprite(sheet, Rect.makeXYWH(16 * px, 0f, 9 * px, 9 * px))
-            full = Sprite(sheet, Rect.makeXYWH(52 * px, 0f, 9 * px, 9 * px))
+            val sheet = decode("textures/gui/icons.png")
+            container = Sprite(sheet, 16 / 256f, 0f, 25 / 256f, 9 / 256f)
+            full = Sprite(sheet, 52 / 256f, 0f, 61 / 256f, 9 / 256f)
             *///?} else {
-            container = whole(Image.makeFromEncoded(read("textures/gui/sprites/hud/heart/container.png")))
-            full = whole(Image.makeFromEncoded(read("textures/gui/sprites/hud/heart/full.png")))
+            container = Sprite(decode("textures/gui/sprites/hud/heart/container.png"))
+            full = Sprite(decode("textures/gui/sprites/hud/heart/full.png"))
             //?}
         } catch (e: Exception) {
             Debug.forceLog("Couldn't load heart textures: $e")
         }
     }
 
-    private fun whole(image: Image) = Sprite(image, Rect.makeWH(image.width.toFloat(), image.height.toFloat()))
+    private fun decode(path: String): PolyBitmap =
+        PolyBitmap.decode(read(path)) ?: throw IllegalStateException("can't decode $path")
 
     private fun read(path: String): ByteArray {
         //? if ornithe {

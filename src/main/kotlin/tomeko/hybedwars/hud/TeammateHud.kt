@@ -22,16 +22,12 @@ import org.polyfrost.compose.composables.padding
 import org.polyfrost.compose.composables.size
 import org.polyfrost.compose.layout.PolyInsets
 import org.polyfrost.compose.mc.McFontQueue
+import org.polyfrost.compose.render.FilterQuality
+import org.polyfrost.compose.render.PolyBitmap
 import org.polyfrost.compose.render.PolyColor
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 import org.polyfrost.oneconfig.api.hud.v1.Hud
 import org.polyfrost.oneconfig.api.hud.v1.HudManager
-import org.jetbrains.skia.FilterMipmap
-import org.jetbrains.skia.FilterMode
-import org.jetbrains.skia.Image
-import org.jetbrains.skia.MipmapMode
-import org.jetbrains.skia.Paint
-import org.jetbrains.skia.Rect
 import tomeko.hybedwars.teammates.PlayerFaces
 import tomeko.hybedwars.teammates.SkinId
 //?}
@@ -100,10 +96,7 @@ class TeammateHud
 
         //? if forge
         //@Exclude
-        private val NEAREST = FilterMipmap(FilterMode.NEAREST, MipmapMode.NONE)
-        //? if forge
-        //@Exclude
-        private val DEAD_HEAD = Paint().apply { alpha = 128 }
+        private val DEAD_HEAD = PolyColor(0x80FFFFFF.toInt())
         //?}
 
         //? if forge
@@ -389,7 +382,7 @@ class TeammateHud
 
         PolyCanvas(modifier = PolyModifier.size(width, height)) { x, y, _, _ ->
             val argb = color.argb
-            McFontQueue.renderer?.invoke(canvas, text, x, y, argb, shadow, scale)
+            mcText(text, x, y, argb, shadow, scale)
 
             // Same place as vanilla: a one pixel line through the middle, with its own shadow
             if (shadow) rect(x + scale, y + 4 * scale, width, scale, PolyColor(shadowOf(argb)))
@@ -403,26 +396,19 @@ class TeammateHud
 
     /** A player's face, faded out when they're dead. Keeps its space while the skin is still loading. */
     @Composable
-    private fun Head(face: Image?, alive: Boolean, scale: Float) {
+    private fun Head(face: PolyBitmap?, alive: Boolean, scale: Float) {
         // As tall as a line of text so the head column lines up with the names
         val size = HEAD_SIZE * scale
         PolyCanvas(modifier = PolyModifier.size(size, McFontQueue.measureTextHeight(scale))) { x, y, _, _ ->
             if (face == null) return@PolyCanvas
-            canvas.drawImageRect(
-                face,
-                Rect.makeWH(HEAD_SIZE.toFloat(), HEAD_SIZE.toFloat()),
-                Rect.makeXYWH(x, y, size, size),
-                NEAREST,
-                if (alive) null else DEAD_HEAD,
-                true
-            )
+            image(face, x, y, size, size, 0f, 0f, 1f, 1f, if (alive) PolyColor.WHITE else DEAD_HEAD, FilterQuality.None)
         }
     }
 
     @Composable
     private fun Heart(full: Boolean, size: Float) {
         PolyCanvas(modifier = PolyModifier.size(size, size)) { x, y, w, h ->
-            HeartTextures.draw(canvas, x, y, w, h, full)
+            HeartTextures.draw(this, x, y, w, h, full)
         }
     }
 
