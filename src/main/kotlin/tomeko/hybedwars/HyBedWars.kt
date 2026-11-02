@@ -9,13 +9,13 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 //?} else {
 import net.fabricmc.api.ClientModInitializer
 //?}
-import tomeko.hybedwars.blocknotify.*
-//? if 1.8.9
-//import tomeko.hybedwars.coloredbeds.*
 import tomeko.hybedwars.commands.*
 import tomeko.hybedwars.config.*
-import tomeko.hybedwars.heightlimit.*
-import tomeko.hybedwars.hud.*
+import tomeko.hybedwars.location.*
+import tomeko.hybedwars.notifiers.*
+import tomeko.hybedwars.resources.*
+import tomeko.hybedwars.restylers.*
+import tomeko.hybedwars.teammates.*
 import tomeko.hybedwars.utils.*
 
 //? if forge {

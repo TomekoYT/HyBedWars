@@ -1,4 +1,4 @@
-package tomeko.hybedwars.hud
+package tomeko.hybedwars.location
 
 //? if !forge {
 import org.polyfrost.oneconfig.api.hud.v1.HudManager

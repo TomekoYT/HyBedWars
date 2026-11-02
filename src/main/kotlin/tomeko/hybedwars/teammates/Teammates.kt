@@ -19,7 +19,7 @@ import net.minecraft.world.scores.PlayerTeam
 import net.minecraft.world.scores.ScoreHolder
 import java.util.Optional
 //?}
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.utils.removeFormatting
 
 //? if 1.8.9 {

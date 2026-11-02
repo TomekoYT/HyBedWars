@@ -1,4 +1,4 @@
-package tomeko.hybedwars.utils
+package tomeko.hybedwars.resources
 
 //? if 1.8.9 {
 /*import net.minecraft.block.Block
@@ -35,6 +35,8 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.BlockHitResult
 //?}
 import tomeko.hybedwars.config.HyBedWarsConfig
+import tomeko.hybedwars.location.HypixelPackets
+import tomeko.hybedwars.utils.removeFormatting
 //? if ornithe {
 //import tomeko.hybedwars.event.ClientReceiveMessageEvents
 //?}

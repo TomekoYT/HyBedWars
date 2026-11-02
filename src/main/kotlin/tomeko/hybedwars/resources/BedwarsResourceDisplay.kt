@@ -1,4 +1,4 @@
-package tomeko.hybedwars.hud
+package tomeko.hybedwars.resources
 
 //? if forge {
 /*import cc.polyfrost.oneconfig.config.annotations.*
@@ -40,9 +40,8 @@ import org.polyfrost.oneconfig.api.hud.v1.HudManager
 import org.polyfrost.oneconfig.api.ui.v1.item.PolyItemIcon
 //?}
 import tomeko.hybedwars.config.HyBedWarsConfig
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.utils.Constants
-import tomeko.hybedwars.utils.ItemTracker
 
 class BedwarsResourceDisplay
 //? if forge {

@@ -1,4 +1,4 @@
-package tomeko.hybedwars.heightlimit
+package tomeko.hybedwars.restylers
 
 import com.google.gson.JsonParser
 import tomeko.hybedwars.utils.Debug

@@ -1,4 +1,4 @@
-package tomeko.hybedwars.hud
+package tomeko.hybedwars.teammates
 
 //? if forge {
 /*import cc.polyfrost.oneconfig.config.annotations.*
@@ -28,12 +28,9 @@ import org.polyfrost.compose.render.PolyColor
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 import org.polyfrost.oneconfig.api.hud.v1.Hud
 import org.polyfrost.oneconfig.api.hud.v1.HudManager
-import tomeko.hybedwars.teammates.PlayerFaces
-import tomeko.hybedwars.teammates.SkinId
 //?}
 import tomeko.hybedwars.config.HyBedWarsConfig
-import tomeko.hybedwars.utils.HypixelPackets
-import tomeko.hybedwars.teammates.Teammates
+import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.teammates.Teammates.Teammate
 import tomeko.hybedwars.utils.Constants
 import tomeko.hybedwars.utils.removeFormatting

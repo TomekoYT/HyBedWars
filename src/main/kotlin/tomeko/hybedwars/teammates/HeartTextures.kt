@@ -1,4 +1,4 @@
-package tomeko.hybedwars.hud
+package tomeko.hybedwars.teammates
 
 //? if !forge {
 import net.minecraft.client.Minecraft

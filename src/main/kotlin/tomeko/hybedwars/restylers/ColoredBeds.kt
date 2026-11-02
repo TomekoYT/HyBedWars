@@ -1,4 +1,4 @@
-package tomeko.hybedwars.coloredbeds
+package tomeko.hybedwars.restylers
 
 //? if 1.8.9 {
 /*import net.minecraft.block.BlockBed
@@ -25,7 +25,7 @@ import com.google.gson.JsonParser
 import net.hypixel.modapi.HypixelModAPI
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
 import tomeko.hybedwars.config.HyBedWarsConfig
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.utils.Debug
 import java.net.URI
 import kotlin.math.PI

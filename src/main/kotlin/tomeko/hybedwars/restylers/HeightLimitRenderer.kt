@@ -1,4 +1,4 @@
-package tomeko.hybedwars.heightlimit
+package tomeko.hybedwars.restylers
 
 //? if 1.8.9 {
 /*import net.minecraft.client.Minecraft
@@ -28,7 +28,7 @@ import tomeko.hybedwars.config.HyBedWarsConfig
 import tomeko.hybedwars.event.LevelRenderEvents
 import tomeko.hybedwars.event.RenderWorldLastEvent
 *///?}
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 import kotlin.math.floor
 
 object HeightLimitRenderer {

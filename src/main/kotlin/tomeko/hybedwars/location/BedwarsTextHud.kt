@@ -1,4 +1,4 @@
-package tomeko.hybedwars.hud
+package tomeko.hybedwars.location
 
 //? if forge {
 /*import cc.polyfrost.oneconfig.config.annotations.Exclude

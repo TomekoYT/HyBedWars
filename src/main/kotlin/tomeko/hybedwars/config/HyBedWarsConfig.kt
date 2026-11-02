@@ -12,14 +12,14 @@ import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 //?}
 //? if forge {
-/*import tomeko.hybedwars.hud.BedwarsResourceDisplay
-import tomeko.hybedwars.hud.GameModeHud
-import tomeko.hybedwars.hud.HeightLimitHud
-import tomeko.hybedwars.hud.MapNameHud
-import tomeko.hybedwars.hud.TeammateHud
+/*import tomeko.hybedwars.resources.BedwarsResourceDisplay
+import tomeko.hybedwars.location.GameModeHud
+import tomeko.hybedwars.location.HeightLimitHud
+import tomeko.hybedwars.location.MapNameHud
+import tomeko.hybedwars.teammates.TeammateHud
 *///?}
 //? if 1.8.9
-//import tomeko.hybedwars.coloredbeds.ColoredBeds
+//import tomeko.hybedwars.restylers.ColoredBeds
 import tomeko.hybedwars.utils.Constants
 
 object HyBedWarsConfig : Config(

@@ -1,4 +1,4 @@
-package tomeko.hybedwars.blocknotify
+package tomeko.hybedwars.notifiers
 
 //? if 1.8.9 {
 /*import net.minecraft.block.BlockTNT as TntBlock
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.TntBlock
 //?}
 import net.hypixel.data.type.GameType
 import tomeko.hybedwars.config.HyBedWarsConfig
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 
 object BlockNotifier {
     private var ticks = -1

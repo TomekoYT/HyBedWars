@@ -1,4 +1,4 @@
-package tomeko.hybedwars.utils
+package tomeko.hybedwars.location
 
 import net.hypixel.data.type.ServerType
 import net.hypixel.modapi.HypixelModAPI
@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent
 //?} else {
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 //?}
+import tomeko.hybedwars.utils.Debug
 
 object HypixelPackets {
     var onHypixel = false
