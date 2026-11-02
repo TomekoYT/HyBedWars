@@ -69,7 +69,241 @@ object HyBedWarsConfig : Config(
     //? if forge {
     //@Exclude
     //?}
-    private const val CATEGORY_GENERAL = "General"
+    private const val CATEGORY_RESOURCES = "Resources"
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_SHOP = "Shop"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Use Middle Click in Shop",
+        description = "Replace middle click with left click in BedWars item shop",
+        category = CATEGORY_RESOURCES,
+        subcategory = SUBCATEGORY_SHOP
+    )
+    var middleClickInBedwarsShop = true
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY = "Resource Display"
+
+    //? if forge {
+    /*@HUD(
+        name = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY,
+        category = CATEGORY_RESOURCES
+    )
+    var bedwarsResourceDisplay = BedwarsResourceDisplay()
+    *///?} else {
+    @Info(
+        title = "Resource Display can be edited by clicking Edit HUD in the top left corner",
+        category = CATEGORY_RESOURCES,
+        subcategory = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY
+    )
+    var bedwarsResourceDisplayInfo: Nothing? = null
+    //?}
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val CATEGORY_TEAMMATES = "Teammates"
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_DEATH_SOUND = "Death Sound"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Teammate Death Sound",
+        description = "Plays a sound when a teammate dies in Hypixel BedWars.",
+        category = CATEGORY_TEAMMATES,
+        subcategory = SUBCATEGORY_DEATH_SOUND
+    )
+    var teammateDeathSound = true
+
+    @Dropdown(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Teammate Death Sound Type",
+        description = "Choose what sound to play when a teammate dies.",
+        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
+        category = CATEGORY_TEAMMATES,
+        subcategory = SUBCATEGORY_DEATH_SOUND
+    )
+    var teammateDeathSoundType = 1
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_TEAMMATES_HUD = "Teammates HUD"
+
+    //? if forge {
+    /*@HUD(
+        name = "Teammates",
+        category = CATEGORY_TEAMMATES,
+        subcategory = SUBCATEGORY_TEAMMATES_HUD
+    )
+    var teammateHud = TeammateHud()
+    *///?} else {
+    @Info(
+        title = "Teammates HUD can be added by clicking Edit HUD in the top left corner",
+        category = CATEGORY_TEAMMATES,
+        subcategory = SUBCATEGORY_TEAMMATES_HUD
+    )
+    var teammateHudInfo: Nothing? = null
+    //?}
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val CATEGORY_LOCATION = "Location"
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_BLOCK_NOTIFIER = "Block Notifier"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Notify When Blocks Run Out",
+        description = "Pings you via a sound when your blocks are running out.",
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_BLOCK_NOTIFIER
+    )
+    var blockNotify = false
+
+    @Slider(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Block Number",
+        description = "Modify the number of blocks you (don't?) have for the Notify When Blocks Run Out feature to work.",
+        min = 4f, max = 20f,
+        //? if forge
+        //step = 1,
+        //? else
+        step = 1f,
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_BLOCK_NOTIFIER
+    )
+    var blockNumber = 10
+
+    @Dropdown(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Block Notify Sound",
+        description = "Choose what sound to play.",
+        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_BLOCK_NOTIFIER
+    )
+    var blockNotifySound = 0
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_LOCATION_HUDS = "Location HUDs"
+
+    //? if forge {
+    /*@HUD(
+        name = "Height Limit",
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_LOCATION_HUDS
+    )
+    var heightLimitHud = HeightLimitHud()
+
+    @HUD(
+        name = "Map Name",
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_LOCATION_HUDS
+    )
+    var mapNameHud = MapNameHud()
+
+    @HUD(
+        name = "Game Mode",
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_LOCATION_HUDS
+    )
+    var gameModeHud = GameModeHud()
+    *///?} else {
+    @Info(
+        title = "Height Limit, Map Name and Game Mode HUDs can be added by clicking Edit HUD in the top left corner",
+        category = CATEGORY_LOCATION,
+        subcategory = SUBCATEGORY_LOCATION_HUDS
+    )
+    var infoHudsInfo: Nothing? = null
+    //?}
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val CATEGORY_POTION_EFFECTS = "Potion Effects"
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_MINING_FATIGUE = "Mining Fatigue"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Notify Mining Fatigue",
+        description = "Send a notification when you get mining fatigue.",
+        category = CATEGORY_POTION_EFFECTS,
+        subcategory = SUBCATEGORY_MINING_FATIGUE
+    )
+    var notifyMiningFatigue = true
+
+    @Checkbox(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Disable Mining Fatigue Notification in SkyBlock",
+        description = "Disable the mining fatigue notification in SkyBlock.",
+        category = CATEGORY_POTION_EFFECTS,
+        subcategory = SUBCATEGORY_MINING_FATIGUE
+    )
+    var disableNotifyMiningFatigueSkyblock = true
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val CATEGORY_RESTYLERS = "Restylers"
 
     //? if forge {
     //@Exclude
@@ -84,7 +318,7 @@ object HyBedWarsConfig : Config(
             //?}
             "Height Overlay",
         description = "Darken blocks on height limit in Hypixel BedWars",
-        category = CATEGORY_GENERAL,
+        category = CATEGORY_RESTYLERS,
         subcategory = SUBCATEGORY_HEIGHT_OVERLAY
     )
     var heightOverlay = true
@@ -102,28 +336,11 @@ object HyBedWarsConfig : Config(
         //step = 1,
         //? else
         step = 1f,
-        category = CATEGORY_GENERAL,
+        category = CATEGORY_RESTYLERS,
         subcategory = SUBCATEGORY_HEIGHT_OVERLAY
     )
     var heightOverlayOpacity = 67
 
-    //? if forge {
-    //@Exclude
-    //?}
-    private const val SUBCATEGORY_SHOP = "Shop"
-
-    @Switch(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Use Middle Click in Shop",
-        description = "Replace middle click with left click in BedWars item shop",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SHOP
-    )
-    var middleClickInBedwarsShop = true
 
     //? if forge {
     //@Exclude
@@ -135,24 +352,25 @@ object HyBedWarsConfig : Config(
     /*@Switch(
         name = "Colored Beds",
         description = "Make beds a different color depending on the team they are on.",
-        category = CATEGORY_GENERAL,
+        category = CATEGORY_RESTYLERS,
         subcategory = SUBCATEGORY_COLORED_BEDS
     )
     var coloredBeds = true
-    *///?} elif 1.8.9 {
+    *///?} elif ornithe {
     /*@Switch(
         title = "Colored Beds",
         description = "Make beds a different color depending on the team they are on.",
-        category = CATEGORY_GENERAL,
+        category = CATEGORY_RESTYLERS,
         subcategory = SUBCATEGORY_COLORED_BEDS
     )
     var coloredBeds = true
     *///?}
 
+
     //? if forge {
     //@Exclude
     //?}
-    private const val SUBCATEGORY_POTION_EFFECTS = "Potion Effects"
+    private const val SUBCATEGORY_HEARTS = "Hardcore Hearts"
 
     @Switch(
         //? if forge {
@@ -160,25 +378,13 @@ object HyBedWarsConfig : Config(
         //?} else {
         title =
             //?}
-            "Notify Mining Fatigue",
-        description = "Send a notification when you get mining fatigue.",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_POTION_EFFECTS
+            "Hardcore Hearts When Bed Is Broken",
+        description = "Show hardcore hearts after your bed is destroyed in Hypixel BedWars, as a reminder that you won't respawn.",
+        category = CATEGORY_RESTYLERS,
+        subcategory = SUBCATEGORY_HEARTS
     )
-    var notifyMiningFatigue = true
+    var hardcoreHearts = true
 
-    @Checkbox(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Disable Mining Fatigue Notification in SkyBlock",
-        description = "Disable the mining fatigue notification in SkyBlock.",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_POTION_EFFECTS
-    )
-    var disableNotifyMiningFatigueSkyblock = true
 
     //? if forge {
     //@Exclude
@@ -193,168 +399,10 @@ object HyBedWarsConfig : Config(
             //?}
             "Hide Armor",
         description = "Hides Leather Armor",
-        category = CATEGORY_GENERAL,
+        category = CATEGORY_RESTYLERS,
         subcategory = SUBCATEGORY_HIDE_ARMOR
     )
     var hideArmor = false
-
-    //? if forge {
-    //@Exclude
-    //?}
-    private const val SUBCATEGORY_SOUND = "Sound"
-
-    @Switch(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Notify When Blocks Run Out",
-        description = "Pings you via a sound when your blocks are running out.",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SOUND
-    )
-    var blockNotify = false
-
-    @Slider(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Block Number",
-        description = "Modify the number of blocks you (don't?) have for the Notify When Blocks Run Out feature to work.",
-        min = 4f, max = 20f,
-        //? if forge
-        //step = 1,
-        //? else
-        step = 1f,
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SOUND
-    )
-    var blockNumber = 10
-
-    @Dropdown(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Block Notify Sound",
-        description = "Choose what sound to play.",
-        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SOUND
-    )
-    var blockNotifySound = 0
-
-    @Switch(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Teammate Death Sound",
-        description = "Plays a sound when a teammate dies in Hypixel BedWars.",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SOUND
-    )
-    var teammateDeathSound = true
-
-    @Dropdown(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Teammate Death Sound Type",
-        description = "Choose what sound to play when a teammate dies.",
-        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_SOUND
-    )
-    var teammateDeathSoundType = 1
-
-
-    //? if forge {
-    //@Exclude
-    //?}
-    private const val SUBCATEGORY_HEARTS = "Hearts"
-
-    @Switch(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Hardcore Hearts When Bed Is Broken",
-        description = "Show hardcore hearts after your bed is destroyed in Hypixel BedWars, as a reminder that you won't respawn.",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_HEARTS
-    )
-    var hardcoreHearts = true
-
-    //? if forge {
-    //@Exclude
-    //?}
-    private const val SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY = "Resource Display"
-
-    //? if forge {
-    /*@HUD(
-        name = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY,
-        category = CATEGORY_GENERAL
-    )
-    var bedwarsResourceDisplay = BedwarsResourceDisplay()
-    *///?} else {
-    @Info(
-        title = "Resource Display can be edited by clicking Edit HUD in the top left corner",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY
-    )
-    var bedwarsResourceDisplayInfo: Nothing? = null
-    //?}
-
-    //? if forge {
-    //@Exclude
-    //?}
-    private const val SUBCATEGORY_INFO_HUDS = "Info HUDs"
-
-    //? if forge {
-    /*@HUD(
-        name = "Height Limit",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_INFO_HUDS
-    )
-    var heightLimitHud = HeightLimitHud()
-
-    @HUD(
-        name = "Map Name",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_INFO_HUDS
-    )
-    var mapNameHud = MapNameHud()
-
-    @HUD(
-        name = "Game Mode",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_INFO_HUDS
-    )
-    var gameModeHud = GameModeHud()
-
-    @HUD(
-        name = "Teammates",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_INFO_HUDS
-    )
-    var teammateHud = TeammateHud()
-    *///?} else {
-    @Info(
-        title = "Height Limit, Map Name, Game Mode and Teammates HUDs can be added by clicking Edit HUD in the top left corner",
-        category = CATEGORY_GENERAL,
-        subcategory = SUBCATEGORY_INFO_HUDS
-    )
-    var infoHudsInfo: Nothing? = null
-    //?}
 
 
     //? if forge {

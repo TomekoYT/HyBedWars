@@ -3,7 +3,7 @@ package tomeko.hybedwars.mixins;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import tomeko.hybedwars.hide_armor.HideArmor;
+import tomeko.hybedwars.restylers.HideArmor;
 
 //? if 1.8.9 {
 /*
@@ -30,7 +30,7 @@ import net.minecraft.world.item.equipment.Equippable;
     //? else
     HumanoidMobRenderer.class
 )
-abstract class HideIngameArmorHumanoidArmorLayerMixin {
+abstract class HideArmorMixin {
     //? if 1.8.9 {
     /*
     @Shadow

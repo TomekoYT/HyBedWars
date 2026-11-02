@@ -1,7 +1,7 @@
-package tomeko.hybedwars.hide_armor
+package tomeko.hybedwars.restylers
 
 import tomeko.hybedwars.config.HyBedWarsConfig
-import tomeko.hybedwars.utils.HypixelPackets
+import tomeko.hybedwars.location.HypixelPackets
 
 //? if 1.8.9 {
 /*import net.minecraft.item.ItemArmor
@@ -10,7 +10,6 @@ import java.util.Locale
 *///?} else {
 import net.minecraft.world.item.equipment.Equippable
 import kotlin.jvm.optionals.getOrNull
-
 //?}
 
 object HideArmor {
