@@ -183,6 +183,24 @@ object HyBedWarsConfig : Config(
     //? if forge {
     //@Exclude
     //?}
+    private const val SUBCATEGORY_HIDE_ARMOR = "Hide Armor"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Hide Armor",
+        description = "Hides Leather Armor",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_HIDE_ARMOR
+    )
+    var hideArmor = false
+
+    //? if forge {
+    //@Exclude
+    //?}
     private const val SUBCATEGORY_SOUND = "Sound"
 
     @Switch(
