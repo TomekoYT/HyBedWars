@@ -12,7 +12,6 @@ import net.fabricmc.api.ClientModInitializer
 import tomeko.hybedwars.commands.*
 import tomeko.hybedwars.config.*
 import tomeko.hybedwars.location.*
-import tomeko.hybedwars.notifiers.*
 import tomeko.hybedwars.resources.*
 import tomeko.hybedwars.restylers.*
 import tomeko.hybedwars.teammates.*
@@ -76,6 +75,10 @@ class HyBedWars
         ItemTracker.register()
 
         BlockNotifier.register()
+
+        TeammateDeathNotifier.register()
+
+        HardcoreHearts.register()
 
         Debug.forceLog("${Constants.MOD_VERSION} Initialized!")
     }

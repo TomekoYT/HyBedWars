@@ -41,6 +41,7 @@ object HyBedWarsConfig : Config(
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
         "notifyMiningFatigue" to listOf("disableNotifyMiningFatigueSkyblock"),
         "blockNotify" to listOf("blockNumber", "blockNotifySound"),
+        "teammateDeathSound" to listOf("teammateDeathSoundType"),
     )
     //?}
 
@@ -50,6 +51,7 @@ object HyBedWarsConfig : Config(
         addDependency("disableNotifyMiningFatigueSkyblock", "notifyMiningFatigue")
         addDependency("blockNumber", "blockNotify")
         addDependency("blockNotifySound", "blockNotify")
+        addDependency("teammateDeathSoundType", "teammateDeathSound")
         //? if 1.8.9
         //addListener("coloredBeds") { ColoredBeds.reloadRenderers() }
         *///?} else {
@@ -228,6 +230,51 @@ object HyBedWarsConfig : Config(
     )
     var blockNotifySound = 0
 
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Teammate Death Sound",
+        description = "Plays a sound when a teammate dies in Hypixel BedWars.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_SOUND
+    )
+    var teammateDeathSound = true
+
+    @Dropdown(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Teammate Death Sound Type",
+        description = "Choose what sound to play when a teammate dies.",
+        options = ["Hypixel Ding", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"],
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_SOUND
+    )
+    var teammateDeathSoundType = 1
+
+
+    //? if forge {
+    //@Exclude
+    //?}
+    private const val SUBCATEGORY_HEARTS = "Hearts"
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Hardcore Hearts When Bed Is Broken",
+        description = "Show hardcore hearts after your bed is destroyed in Hypixel BedWars, as a reminder that you won't respawn.",
+        category = CATEGORY_GENERAL,
+        subcategory = SUBCATEGORY_HEARTS
+    )
+    var hardcoreHearts = true
 
     //? if forge {
     //@Exclude

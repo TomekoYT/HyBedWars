@@ -1,4 +1,4 @@
-package tomeko.hybedwars.notifiers
+package tomeko.hybedwars.effects
 
 //? if forge {
 //import cc.polyfrost.oneconfig.utils.Notifications
@@ -16,7 +16,6 @@ import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.utils.Constants
 
 object MiningFatigueNotifier {
-    @JvmStatic
     fun onEffectAdded(entity: Any, miningFatigue: Boolean) {
         if (HyBedWarsConfig.notifyMiningFatigue && miningFatigue && HypixelPackets.currentServerType != null && entity is LocalPlayer &&
             (!HyBedWarsConfig.disableNotifyMiningFatigueSkyblock || HypixelPackets.currentServerType != GameType.SKYBLOCK)

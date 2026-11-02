@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tomeko.hybedwars.notifiers.MiningFatigueNotifier;
+import tomeko.hybedwars.effects.MiningFatigueNotifier;
 
 @Mixin(
         //? if 1.8.9
@@ -26,12 +26,12 @@ abstract class LivingEntityMixin {
     //? if 1.8.9 {
     /*@Inject(method = "addPotionEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;onNewPotionEffect(Lnet/minecraft/potion/PotionEffect;)V"))
     private void hybedwars$onEffectAdded(PotionEffect effect, CallbackInfo ci) {
-        MiningFatigueNotifier.onEffectAdded(this, effect.getPotionID() == Potion.digSlowdown.getId());
+        MiningFatigueNotifier.INSTANCE.onEffectAdded(this, effect.getPotionID() == Potion.digSlowdown.getId());
     }
     *///?} else {
     @Inject(method = "onEffectAdded", at = @At("HEAD"))
     private void hybedwars$onEffectAdded(MobEffectInstance effect, Entity source, CallbackInfo ci) {
-        MiningFatigueNotifier.onEffectAdded(this, effect.getEffect().equals(MobEffects.MINING_FATIGUE));
+        MiningFatigueNotifier.INSTANCE.onEffectAdded(this, effect.getEffect().equals(MobEffects.MINING_FATIGUE));
     }
     //?}
 }
