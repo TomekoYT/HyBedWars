@@ -16,44 +16,67 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 
 ## Features
 
-### Height Overlay
+### Resources
 
-- Darken blocks on height limit
-- Set opacity of height overlay blocks darkening
-
-### Shop
+#### Shop
 
 - Use Middle Click in Shop
 
-### Colored Beds
-
-- Make beds a different color depending on the team they are on
-
-### Potion Effects
-
-- Notify Mining Fatigue
-- Disable Mining Fatigue Notification in SkyBlock
-
-### Sound
-
-- Notify When Blocks Run Out
-- Block Number
-- Block Notify Sound
-
-### Resource Display
+#### Resource Display
 
 - Show Iron, Gold, Diamond, Emerald
 - Show Inventory, Ender Chest, Total
 - Works with Hypixel Ender Chest punching feature
 
-### Info HUDs
+### Teammates
+
+#### Death Sound
+
+- Teammate Death Sound
+- Teammate Death Sound Type (Hypixel Ding, Golem Hit, Blaze Hit, Anvil Land, Horse Death, Ghast Scream, Guardian Floop, Cat Meow, Dog Bark)
+
+#### Teammates HUD
+
+- Lists your teammates with their health (also from the tab list when they are out of render distance)
+- Keeps showing teammates while they respawn or after a final kill
+- In Castle, can show only nearby teammates within a set range
+
+### Location
+
+#### Block Notifier
+
+- Notify When Blocks Run Out
+- Block Number
+- Block Notify Sound
+
+#### Info HUDs
 
 - Height Limit: blocks left until the map's build height limit (optional limit Y and color by distance)
 - Map Name
 - Game Mode (Solo, Doubles, 3v3v3v3, 4v4v4v4, 4v4, Dreams modes and more)
 
-### Teammates HUD
+### Potion Effects
 
-- Lists your teammates with their health (also from the tab list when they are out of render distance)
-- Keeps showing teammates while they respawn or after a final kill
-- In Castle, can show only nearby teammates within a set range
+#### Mining Fatigue
+
+- Notify Mining Fatigue
+- Disable Mining Fatigue Notification in SkyBlock
+
+### Restylers
+
+#### Height Overlay
+
+- Darken blocks on height limit
+- Set opacity of height overlay blocks darkening
+
+#### Colored Beds
+
+- Make beds a different color depending on the team they are on
+
+#### Hardcore Hearts
+
+- Show hardcore hearts after your bed is destroyed, as a reminder that you won't respawn
+
+#### Hide Armor
+
+- Hide Leather Armor
