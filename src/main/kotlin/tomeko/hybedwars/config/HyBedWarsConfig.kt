@@ -38,35 +38,32 @@ object HyBedWarsConfig : Config(
     Category.HYPIXEL
     //?}
 ) {
-    //? if !forge {
+    //? if forge {
+    //@Exclude
+    //?}
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
         "notifyMiningFatigue" to listOf("disableNotifyMiningFatigueSkyblock"),
         "blockNotify" to listOf("blockNumber", "blockNotifySound"),
         "teammateDeathSound" to listOf("teammateDeathSoundType"),
     )
-    //?}
 
     fun register() {
-        //? if forge {
-        /*initialize()
-        addDependency("disableNotifyMiningFatigueSkyblock", "notifyMiningFatigue")
-        addDependency("blockNumber", "blockNotify")
-        addDependency("blockNotifySound", "blockNotify")
-        addDependency("teammateDeathSoundType", "teammateDeathSound")
-        //? if 1.8.9
-        //addListener("coloredBeds") { ColoredBeds.reloadRenderers() }
-        *///?} else {
+        //? if forge
+        //initialize()
+        //? else
         preload()
         for ((condition, dependencies) in DEPENDENCIES) {
             for (dependency in dependencies) {
                 addDependency(dependency, condition)
             }
         }
+
+        //~ if forge addCallback -> addListener {
         //? if 1.8.9
-        //addCallback("coloredBeds", Runnable { ColoredBeds.reloadRenderers() })
-        //?}
+        //addCallback("coloredBeds") { ColoredBeds.reloadRenderers() }
         addCallback("blockNotifySound") { NotifySounds.play(blockNotifySound, survivalOnly = false) }
         addCallback("teammateDeathSoundType") { NotifySounds.play(teammateDeathSoundType, survivalOnly = false) }
+        //~}
     }
 
     //? if forge {
