@@ -21,6 +21,7 @@ import tomeko.hybedwars.teammates.TeammateHud
 //? if 1.8.9
 //import tomeko.hybedwars.restylers.ColoredBeds
 import tomeko.hybedwars.utils.Constants
+import tomeko.hybedwars.utils.NotifySounds
 
 object HyBedWarsConfig : Config(
     //? if forge {
@@ -64,6 +65,8 @@ object HyBedWarsConfig : Config(
         //? if 1.8.9
         //addCallback("coloredBeds", Runnable { ColoredBeds.reloadRenderers() })
         //?}
+        addCallback("blockNotifySound") { NotifySounds.play(blockNotifySound, survivalOnly = false) }
+        addCallback("teammateDeathSoundType") { NotifySounds.play(teammateDeathSoundType, survivalOnly = false) }
     }
 
     //? if forge {
