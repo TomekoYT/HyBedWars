@@ -18,8 +18,10 @@ import org.polyfrost.compose.composables.PolyColumn
 import org.polyfrost.compose.composables.PolyMcText
 import org.polyfrost.compose.composables.PolyModifier
 import org.polyfrost.compose.composables.PolyRow
+import org.polyfrost.compose.composables.align
 import org.polyfrost.compose.composables.padding
 import org.polyfrost.compose.composables.size
+import org.polyfrost.compose.layout.PolyAlign
 import org.polyfrost.compose.layout.PolyInsets
 import org.polyfrost.compose.mc.McFontQueue
 import org.polyfrost.compose.render.FilterQuality
@@ -64,6 +66,9 @@ class TeammateHud
         //? if forge
         //@Exclude
         private const val SUBCATEGORY_PLAYERS = "Players"
+        //? if forge
+        //@Exclude
+        private const val SUBCATEGORY_FORMATTING = "Formatting"
 
         //? if forge
         //@Exclude
@@ -237,6 +242,24 @@ class TeammateHud
     )
     var castleRange = 25f
 
+    @Dropdown(
+        //? if forge {
+        /*name =
+        *///?} else {
+        title =
+            //?}
+            "Mode",
+        description = "Change display mode",
+        options = ["Vertical", "Horizontal"],
+        //? if !forge {
+        subcategory = SUBCATEGORY_FORMATTING
+        //?}
+    )
+    var layoutMode = 0
+
+    private val vertical: Boolean
+        get() = layoutMode == 0
+
     /** Only in BedWars games: in lobbies everyone with your rank shows up as a "teammate". */
     private val active: Boolean
         get() = HyBedWarsConfig.debugModeEnabled || (HypixelPackets.inBedwars && HypixelPackets.inGame)
@@ -365,26 +388,51 @@ class TeammateHud
         }
 
         // One column each for heads, names, hearts and health so every row lines up
-        PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
-            PolyRow(gap = COLUMN_GAP * scale) {
-                if (showHead) {
+        if (vertical) {
+            PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
+                PolyRow(gap = COLUMN_GAP * scale) {
+                    if (showHead) {
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            for (row in rows) renderHead(row)
+                        }
+                    }
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) renderHead(row)
+                        for (row in rows) {
+                            renderName(row)
+                        }
                     }
-                }
-                PolyColumn(gap = ROW_GAP * scale) {
-                    for (row in rows) {
-                        renderName(row)
+                    if (showHeart) {
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            for (row in rows) renderHeart(row)
+                        }
                     }
-                }
-                if (showHeart) {
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) renderHeart(row)
+                        for (row in rows) {
+                            renderHealthText(row)
+                        }
                     }
                 }
-                PolyColumn(gap = ROW_GAP * scale) {
+            }
+        } else {
+            PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
+                // this gap is separating entire players,
+                // the larger gap makes it easier to quickly parse
+                PolyRow(gap = 2 * COLUMN_GAP * scale) {
                     for (row in rows) {
-                        renderHealthText(row)
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            PolyRow(gap = COLUMN_GAP * scale, modifier = PolyModifier.align(PolyAlign.Center)) {
+                                if (showHead) {
+                                    renderHead(row)
+                                }
+                                renderName(row)
+                            }
+                            PolyRow(gap = COLUMN_GAP * scale, modifier = PolyModifier.align(PolyAlign.Center)) {
+                                if (showHeart) {
+                                    renderHeart(row)
+                                }
+                                renderHealthText(row)
+                            }
+                        }
                     }
                 }
             }
