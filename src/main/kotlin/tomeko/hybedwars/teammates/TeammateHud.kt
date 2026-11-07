@@ -341,30 +341,50 @@ class TeammateHud
         val color = PolyColor(textColor, textChroma, textChromaSpeed)
         val shadow = showShadow
 
+        @Composable
+        fun renderHead(row: Row) =
+            Head(PlayerFaces.get(row.skin), row.alive, scale)
+
+        @Composable
+        fun renderName(row: Row) {
+            val nameColor = row.nameColor?.let(::PolyColor) ?: color
+            if (row.alive)
+                PolyMcText(row.name, color = nameColor, shadow = shadow, scale = scale)
+            else
+                StruckText(row.name, nameColor, shadow, scale)
+        }
+
+        @Composable
+        fun renderHeart(row: Row) =
+            Heart(row.alive, HEART_SIZE * scale)
+
+        @Composable
+        fun renderHealthText(row: Row) {
+            val healthColor = row.healthColor?.let(::PolyColor) ?: color
+            PolyMcText(row.health, color = healthColor, shadow = shadow, scale = scale)
+        }
+
         // One column each for heads, names, hearts and health so every row lines up
         PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
             PolyRow(gap = COLUMN_GAP * scale) {
                 if (showHead) {
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) Head(PlayerFaces.get(row.skin), row.alive, scale)
+                        for (row in rows) renderHead(row)
                     }
                 }
                 PolyColumn(gap = ROW_GAP * scale) {
                     for (row in rows) {
-                        val nameColor = row.nameColor?.let(::PolyColor) ?: color
-                        if (row.alive) PolyMcText(row.name, color = nameColor, shadow = shadow, scale = scale)
-                        else StruckText(row.name, nameColor, shadow, scale)
+                        renderName(row)
                     }
                 }
                 if (showHeart) {
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) Heart(row.alive, HEART_SIZE * scale)
+                        for (row in rows) renderHeart(row)
                     }
                 }
                 PolyColumn(gap = ROW_GAP * scale) {
                     for (row in rows) {
-                        val healthColor = row.healthColor?.let(::PolyColor) ?: color
-                        PolyMcText(row.health, color = healthColor, shadow = shadow, scale = scale)
+                        renderHealthText(row)
                     }
                 }
             }
