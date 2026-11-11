@@ -12,14 +12,13 @@ val javaVersion = project.property("java_version") as String
 val minecraftVersion = project.property("minecraft_version") as String
 
 val mixinbooterVersion = project.property("mixinbooter_version") as String
-
 val oneconfigVersion = project.property("oneconfig_version") as String
 val hypixelModApiVersion = project.property("hypixel_mod_api_version") as String
 
 plugins {
     idea
     java
-    kotlin("jvm") version "2.4.20"
+    kotlin("jvm") version "2.4.21"
     id("gg.essential.loom") version "1.9.31"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.gradleup.shadow") version "9.4.1"
@@ -114,18 +113,22 @@ tasks.withType(JavaCompile::class) {
 tasks.withType(org.gradle.jvm.tasks.Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+    exclude("fabric.mod.json")
+
     archiveBaseName.set("$modArchivesName-$modVersion-${minecraftVersion}_forge")
     manifest.attributes.run {
         this["FMLCorePluginContainsFMLMod"] = "true"
         this["ForceLoadAsMod"] = "true"
 
         this["MixinConfigs"] = "mixins.$modId.json"
-        this["MixinConnector"] = "$baseGroup.MixinConnector"
+        this["MixinConnector"] = "$baseGroup.plugins.MixinConnector"
     }
 }
 
 tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    exclude("fabric.mod.json")
 
     val props = mapOf(
         "mod_id" to modId,
