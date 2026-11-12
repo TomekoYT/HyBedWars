@@ -132,7 +132,7 @@ object HyBedWarsConfig : Config(
         category = CATEGORY_TEAMMATES,
         subcategory = SUBCATEGORY_DEATH_SOUND
     )
-    var teammateDeathSound = true
+    var teammateDeathSound = false
 
     @Dropdown(
         //? if forge {
@@ -332,7 +332,7 @@ object HyBedWarsConfig : Config(
             "Opacity",
         description = "Set opacity of height overlay blocks darkening in Hypixel BedWars",
         min = 0f, max = 100f,
-        //? forge
+        //? if forge
         //step = 1,
         //? else
         step = 1f,

@@ -43,7 +43,7 @@ import kotlin.math.ceil
  */
 class TeammateHud
 //? if forge {
-//: BasicHud(true)
+//: BasicHud(false)
 //?} else {
     : Hud("${Constants.MOD_ID}_teammates.json", "BedWars Teammates", Category.COMBAT)
 //?}

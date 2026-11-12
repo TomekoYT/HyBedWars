@@ -45,7 +45,7 @@ import tomeko.hybedwars.utils.Constants
 
 class BedwarsResourceDisplay
 //? if forge {
-//: BasicHud(true)
+//: BasicHud(false)
 //?} else {
     : Hud("${Constants.MOD_ID}_bedwars_resource_display.json", "BedWars Resource Display", Category.COMBAT)
 //?}
