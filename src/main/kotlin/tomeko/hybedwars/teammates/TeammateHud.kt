@@ -513,44 +513,151 @@ class TeammateHud
         val rowHeight = 10
         val gap = 4
 
-        // Health goes in its own column so every row lines up
-        var nameWidth = 0
-        var healthWidth = 0
-        for (t in rows) {
-            nameWidth = maxOf(nameWidth, font.getStringWidth(nameText(t)))
-            healthWidth = maxOf(healthWidth, font.getStringWidth(healthText(t)))
-        }
-
-        val nameX = if (showHead) HEAD_SIZE + 2 else 0
-        val heartX = nameX + nameWidth + gap
-        val healthX = if (showHeart) heartX + HEART_SIZE + 1 else heartX
-
-        var y = 0
-        for (t in rows) {
-            if (showHead) {
-                // Face then hat layer, the same way the tab list draws heads
-                mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
-                GlStateManager.enableBlend()
-                GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
-                Gui.drawScaledCustomSizeModalRect(0, y, 8f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
-                Gui.drawScaledCustomSizeModalRect(0, y, 40f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
-                GlStateManager.color(1f, 1f, 1f, 1f)
+        if (vertical) {
+            // Health goes in its own column so every row lines up
+            var nameWidth = 0
+            var healthWidth = 0
+            for (t in rows) {
+                nameWidth = maxOf(nameWidth, font.getStringWidth(nameText(t)))
+                healthWidth = maxOf(healthWidth, font.getStringWidth(healthText(t)))
             }
-            font.drawString(nameText(t), nameX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
-            if (showHeart) {
-                mc.textureManager.bindTexture(Gui.icons)
-                GlStateManager.color(1f, 1f, 1f, 1f)
-                GlStateManager.enableBlend()
-                // Outline, then the red fill on top
-                Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 16f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
-                if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 52f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
-            }
-            font.drawString(healthText(t), healthX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
-            y += rowHeight
-        }
 
-        actualWidth = (healthX + healthWidth).toFloat().coerceAtLeast(1f)
-        actualHeight = (rows.size * rowHeight - 1).toFloat().coerceAtLeast(rowHeight.toFloat())
+            val nameX = if (showHead) HEAD_SIZE + 2 else 0
+            val heartX = nameX + nameWidth + gap
+            val healthX = if (showHeart) heartX + HEART_SIZE + 1 else heartX
+
+            var y = 0
+            for (t in rows) {
+                if (showHead) {
+                    // Face then hat layer, the same way the tab list draws heads
+                    mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
+                    GlStateManager.enableBlend()
+                    GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
+                    Gui.drawScaledCustomSizeModalRect(0, y, 8f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
+                    Gui.drawScaledCustomSizeModalRect(0, y, 40f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                }
+                font.drawString(nameText(t), nameX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
+                if (showHeart) {
+                    mc.textureManager.bindTexture(Gui.icons)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                    GlStateManager.enableBlend()
+                    // Outline, then the red fill on top
+                    Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 16f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
+                    if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(
+                        heartX,
+                        y - 1,
+                        52f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                }
+                font.drawString(healthText(t), healthX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
+                y += rowHeight
+            }
+
+            actualWidth = (healthX + healthWidth).toFloat().coerceAtLeast(1f)
+            actualHeight = (rows.size * rowHeight - 1).toFloat().coerceAtLeast(rowHeight.toFloat())
+        } else {
+            var x = 0
+
+            val nameX = if (showHead) HEAD_SIZE + 2 else 0
+            val healthX = if (showHeart) HEART_SIZE + 1 else 0
+
+            for (t in rows) {
+                var columnWidth = 0
+
+                val nameWidth = font.getStringWidth(nameText(t))
+                val healthWidth = font.getStringWidth(healthText(t))
+
+                columnWidth += nameWidth + nameX
+
+                val centeredX = x + columnWidth / 2
+
+                val nameCenterOffset = (nameWidth + nameX) / 2
+                if (showHead) {
+                    // Face then hat layer, the same way the tab list draws heads
+                    mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
+                    GlStateManager.enableBlend()
+                    GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
+                    Gui.drawScaledCustomSizeModalRect(
+                        centeredX - nameCenterOffset,
+                        0,
+                        8f,
+                        8f,
+                        8,
+                        8,
+                        HEAD_SIZE,
+                        HEAD_SIZE,
+                        64f,
+                        64f
+                    )
+                    Gui.drawScaledCustomSizeModalRect(
+                        centeredX - nameCenterOffset,
+                        0,
+                        40f,
+                        8f,
+                        8,
+                        8,
+                        HEAD_SIZE,
+                        HEAD_SIZE,
+                        64f,
+                        64f
+                    )
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                }
+                font.drawString(
+                    nameText(t),
+                    centeredX - nameCenterOffset + nameX.toFloat(),
+                    0f,
+                    0xFFFFFFFF.toInt(),
+                    textShadow
+                )
+
+                val healthCenterOffset = (healthWidth + healthX) / 2
+                if (showHeart) {
+                    mc.textureManager.bindTexture(Gui.icons)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                    GlStateManager.enableBlend()
+                    // Outline, then the red fill on top
+                    Gui.drawModalRectWithCustomSizedTexture(
+                        centeredX - healthCenterOffset,
+                        rowHeight - 1,
+                        16f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                    if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(
+                        centeredX - healthCenterOffset,
+                        rowHeight - 1,
+                        52f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                }
+                font.drawString(
+                    healthText(t),
+                    centeredX - healthCenterOffset + healthX.toFloat(),
+                    rowHeight.toFloat(),
+                    0xFFFFFFFF.toInt(),
+                    textShadow
+                )
+
+                x += 2 * gap + columnWidth
+            }
+
+            actualWidth = (x - 2 * gap).toFloat().coerceAtLeast(1f)
+            actualHeight = (2 * rowHeight - 1).toFloat()
+        }
     }
     *///?}
 }
