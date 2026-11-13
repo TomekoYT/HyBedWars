@@ -18,8 +18,10 @@ import org.polyfrost.compose.composables.PolyColumn
 import org.polyfrost.compose.composables.PolyMcText
 import org.polyfrost.compose.composables.PolyModifier
 import org.polyfrost.compose.composables.PolyRow
+import org.polyfrost.compose.composables.align
 import org.polyfrost.compose.composables.padding
 import org.polyfrost.compose.composables.size
+import org.polyfrost.compose.layout.PolyAlign
 import org.polyfrost.compose.layout.PolyInsets
 import org.polyfrost.compose.mc.McFontQueue
 import org.polyfrost.compose.render.FilterQuality
@@ -64,6 +66,9 @@ class TeammateHud
         //? if forge
         //@Exclude
         private const val SUBCATEGORY_PLAYERS = "Players"
+        //? if forge
+        //@Exclude
+        private const val SUBCATEGORY_FORMATTING = "Formatting"
 
         //? if forge
         //@Exclude
@@ -237,6 +242,24 @@ class TeammateHud
     )
     var castleRange = 25f
 
+    @Dropdown(
+        //? if forge {
+        /*name =
+        *///?} else {
+        title =
+            //?}
+            "Mode",
+        description = "Change display mode",
+        options = ["Vertical", "Horizontal"],
+        //? if !forge {
+        subcategory = SUBCATEGORY_FORMATTING
+        //?}
+    )
+    var layoutMode = 0
+
+    private val vertical: Boolean
+        get() = layoutMode == 0
+
     /** Only in BedWars games: in lobbies everyone with your rank shows up as a "teammate". */
     private val active: Boolean
         get() = HyBedWarsConfig.debugModeEnabled || (HypixelPackets.inBedwars && HypixelPackets.inGame)
@@ -341,30 +364,75 @@ class TeammateHud
         val color = PolyColor(textColor, textChroma, textChromaSpeed)
         val shadow = showShadow
 
+        @Composable
+        fun renderHead(row: Row) =
+            Head(PlayerFaces.get(row.skin), row.alive, scale)
+
+        @Composable
+        fun renderName(row: Row) {
+            val nameColor = row.nameColor?.let(::PolyColor) ?: color
+            if (row.alive)
+                PolyMcText(row.name, color = nameColor, shadow = shadow, scale = scale)
+            else
+                StruckText(row.name, nameColor, shadow, scale)
+        }
+
+        @Composable
+        fun renderHeart(row: Row) =
+            Heart(row.alive, HEART_SIZE * scale)
+
+        @Composable
+        fun renderHealthText(row: Row) {
+            val healthColor = row.healthColor?.let(::PolyColor) ?: color
+            PolyMcText(row.health, color = healthColor, shadow = shadow, scale = scale)
+        }
+
         // One column each for heads, names, hearts and health so every row lines up
-        PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
-            PolyRow(gap = COLUMN_GAP * scale) {
-                if (showHead) {
+        if (vertical) {
+            PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
+                PolyRow(gap = COLUMN_GAP * scale) {
+                    if (showHead) {
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            for (row in rows) renderHead(row)
+                        }
+                    }
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) Head(PlayerFaces.get(row.skin), row.alive, scale)
+                        for (row in rows) {
+                            renderName(row)
+                        }
                     }
-                }
-                PolyColumn(gap = ROW_GAP * scale) {
-                    for (row in rows) {
-                        val nameColor = row.nameColor?.let(::PolyColor) ?: color
-                        if (row.alive) PolyMcText(row.name, color = nameColor, shadow = shadow, scale = scale)
-                        else StruckText(row.name, nameColor, shadow, scale)
+                    if (showHeart) {
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            for (row in rows) renderHeart(row)
+                        }
                     }
-                }
-                if (showHeart) {
                     PolyColumn(gap = ROW_GAP * scale) {
-                        for (row in rows) Heart(row.alive, HEART_SIZE * scale)
+                        for (row in rows) {
+                            renderHealthText(row)
+                        }
                     }
                 }
-                PolyColumn(gap = ROW_GAP * scale) {
+            }
+        } else {
+            PolyBox(modifier = hudBackground().padding(PolyInsets(padLeft, padTop, padRight, padBottom))) {
+                // this gap is separating entire players,
+                // the larger gap makes it easier to quickly parse
+                PolyRow(gap = 2 * COLUMN_GAP * scale) {
                     for (row in rows) {
-                        val healthColor = row.healthColor?.let(::PolyColor) ?: color
-                        PolyMcText(row.health, color = healthColor, shadow = shadow, scale = scale)
+                        PolyColumn(gap = ROW_GAP * scale) {
+                            PolyRow(gap = COLUMN_GAP * scale, modifier = PolyModifier.align(PolyAlign.Center)) {
+                                if (showHead) {
+                                    renderHead(row)
+                                }
+                                renderName(row)
+                            }
+                            PolyRow(gap = COLUMN_GAP * scale, modifier = PolyModifier.align(PolyAlign.Center)) {
+                                if (showHeart) {
+                                    renderHeart(row)
+                                }
+                                renderHealthText(row)
+                            }
+                        }
                     }
                 }
             }
@@ -445,44 +513,151 @@ class TeammateHud
         val rowHeight = 10
         val gap = 4
 
-        // Health goes in its own column so every row lines up
-        var nameWidth = 0
-        var healthWidth = 0
-        for (t in rows) {
-            nameWidth = maxOf(nameWidth, font.getStringWidth(nameText(t)))
-            healthWidth = maxOf(healthWidth, font.getStringWidth(healthText(t)))
-        }
-
-        val nameX = if (showHead) HEAD_SIZE + 2 else 0
-        val heartX = nameX + nameWidth + gap
-        val healthX = if (showHeart) heartX + HEART_SIZE + 1 else heartX
-
-        var y = 0
-        for (t in rows) {
-            if (showHead) {
-                // Face then hat layer, the same way the tab list draws heads
-                mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
-                GlStateManager.enableBlend()
-                GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
-                Gui.drawScaledCustomSizeModalRect(0, y, 8f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
-                Gui.drawScaledCustomSizeModalRect(0, y, 40f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
-                GlStateManager.color(1f, 1f, 1f, 1f)
+        if (vertical) {
+            // Health goes in its own column so every row lines up
+            var nameWidth = 0
+            var healthWidth = 0
+            for (t in rows) {
+                nameWidth = maxOf(nameWidth, font.getStringWidth(nameText(t)))
+                healthWidth = maxOf(healthWidth, font.getStringWidth(healthText(t)))
             }
-            font.drawString(nameText(t), nameX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
-            if (showHeart) {
-                mc.textureManager.bindTexture(Gui.icons)
-                GlStateManager.color(1f, 1f, 1f, 1f)
-                GlStateManager.enableBlend()
-                // Outline, then the red fill on top
-                Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 16f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
-                if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 52f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
-            }
-            font.drawString(healthText(t), healthX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
-            y += rowHeight
-        }
 
-        actualWidth = (healthX + healthWidth).toFloat().coerceAtLeast(1f)
-        actualHeight = (rows.size * rowHeight - 1).toFloat().coerceAtLeast(rowHeight.toFloat())
+            val nameX = if (showHead) HEAD_SIZE + 2 else 0
+            val heartX = nameX + nameWidth + gap
+            val healthX = if (showHeart) heartX + HEART_SIZE + 1 else heartX
+
+            var y = 0
+            for (t in rows) {
+                if (showHead) {
+                    // Face then hat layer, the same way the tab list draws heads
+                    mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
+                    GlStateManager.enableBlend()
+                    GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
+                    Gui.drawScaledCustomSizeModalRect(0, y, 8f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
+                    Gui.drawScaledCustomSizeModalRect(0, y, 40f, 8f, 8, 8, HEAD_SIZE, HEAD_SIZE, 64f, 64f)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                }
+                font.drawString(nameText(t), nameX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
+                if (showHeart) {
+                    mc.textureManager.bindTexture(Gui.icons)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                    GlStateManager.enableBlend()
+                    // Outline, then the red fill on top
+                    Gui.drawModalRectWithCustomSizedTexture(heartX, y - 1, 16f, 0f, HEART_SIZE, HEART_SIZE, 256f, 256f)
+                    if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(
+                        heartX,
+                        y - 1,
+                        52f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                }
+                font.drawString(healthText(t), healthX.toFloat(), y.toFloat(), 0xFFFFFFFF.toInt(), textShadow)
+                y += rowHeight
+            }
+
+            actualWidth = (healthX + healthWidth).toFloat().coerceAtLeast(1f)
+            actualHeight = (rows.size * rowHeight - 1).toFloat().coerceAtLeast(rowHeight.toFloat())
+        } else {
+            var x = 0
+
+            val nameX = if (showHead) HEAD_SIZE + 2 else 0
+            val healthX = if (showHeart) HEART_SIZE + 1 else 0
+
+            for (t in rows) {
+                var columnWidth = 0
+
+                val nameWidth = font.getStringWidth(nameText(t))
+                val healthWidth = font.getStringWidth(healthText(t))
+
+                columnWidth += nameWidth + nameX
+
+                val centeredX = x + columnWidth / 2
+
+                val nameCenterOffset = (nameWidth + nameX) / 2
+                if (showHead) {
+                    // Face then hat layer, the same way the tab list draws heads
+                    mc.textureManager.bindTexture(t.skin ?: DefaultPlayerSkin.getDefaultSkinLegacy())
+                    GlStateManager.enableBlend()
+                    GlStateManager.color(1f, 1f, 1f, if (t.dead) 0.5f else 1f)
+                    Gui.drawScaledCustomSizeModalRect(
+                        centeredX - nameCenterOffset,
+                        0,
+                        8f,
+                        8f,
+                        8,
+                        8,
+                        HEAD_SIZE,
+                        HEAD_SIZE,
+                        64f,
+                        64f
+                    )
+                    Gui.drawScaledCustomSizeModalRect(
+                        centeredX - nameCenterOffset,
+                        0,
+                        40f,
+                        8f,
+                        8,
+                        8,
+                        HEAD_SIZE,
+                        HEAD_SIZE,
+                        64f,
+                        64f
+                    )
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                }
+                font.drawString(
+                    nameText(t),
+                    centeredX - nameCenterOffset + nameX.toFloat(),
+                    0f,
+                    0xFFFFFFFF.toInt(),
+                    textShadow
+                )
+
+                val healthCenterOffset = (healthWidth + healthX) / 2
+                if (showHeart) {
+                    mc.textureManager.bindTexture(Gui.icons)
+                    GlStateManager.color(1f, 1f, 1f, 1f)
+                    GlStateManager.enableBlend()
+                    // Outline, then the red fill on top
+                    Gui.drawModalRectWithCustomSizedTexture(
+                        centeredX - healthCenterOffset,
+                        rowHeight - 1,
+                        16f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                    if (!t.dead) Gui.drawModalRectWithCustomSizedTexture(
+                        centeredX - healthCenterOffset,
+                        rowHeight - 1,
+                        52f,
+                        0f,
+                        HEART_SIZE,
+                        HEART_SIZE,
+                        256f,
+                        256f
+                    )
+                }
+                font.drawString(
+                    healthText(t),
+                    centeredX - healthCenterOffset + healthX.toFloat(),
+                    rowHeight.toFloat(),
+                    0xFFFFFFFF.toInt(),
+                    textShadow
+                )
+
+                x += 2 * gap + columnWidth
+            }
+
+            actualWidth = (x - 2 * gap).toFloat().coerceAtLeast(1f)
+            actualHeight = (2 * rowHeight - 1).toFloat()
+        }
     }
     *///?}
 }
