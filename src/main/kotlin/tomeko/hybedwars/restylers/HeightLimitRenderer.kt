@@ -68,8 +68,8 @@ object HeightLimitRenderer {
 
     private var cachedLevel:
     //? if 1.8.9 {
-    //WorldClient? = null
-    //?} else {
+    /*WorldClient? = null
+    *///?} else {
             ClientLevel? = null
     //?}
 
@@ -110,8 +110,8 @@ object HeightLimitRenderer {
         //? if >= 26.2 {
         LevelRenderEvents.COLLECT_SUBMITS.register(::onWorldRender)
         //?} else {
-        //LevelRenderEvents.AFTER_TRANSLUCENT_FEATURES.register(::onWorldRender)
-        //?}
+        /*LevelRenderEvents.AFTER_TRANSLUCENT_FEATURES.register(::onWorldRender)
+        *///?}
 
         ClientTickEvents.END_CLIENT_TICK.register { onClientTick() }
     }
@@ -179,8 +179,8 @@ object HeightLimitRenderer {
 
     private fun revalidateOneChunk(
         //? if 1.8.9 {
-        //level: WorldClient,
-        //?} else {
+        /*level: WorldClient,
+        *///?} else {
         level: ClientLevel,
         //?}
         targetY: Int
@@ -272,8 +272,8 @@ object HeightLimitRenderer {
     private fun buildChunk(
         cache: ChunkCache,
         //? if 1.8.9 {
-        //level: WorldClient,
-        //?} else {
+        /*level: WorldClient,
+        *///?} else {
         level: ClientLevel,
         //?}
         targetY: Int
@@ -580,8 +580,8 @@ object HeightLimitRenderer {
 
     private fun onWorldRender(
         //? if 1.8.9 {
-        //event: RenderWorldLastEvent
-        //?} else {
+        /*event: RenderWorldLastEvent
+        *///?} else {
         context: LevelRenderContext
         //?}
     ) {
@@ -591,23 +591,23 @@ object HeightLimitRenderer {
 
         val mc =
         //? if 1.8.9 {
-        //Minecraft.getMinecraft()
-            //?} else {
+        /*Minecraft.getMinecraft()
+            *///?} else {
             Minecraft.getInstance()
         //?}
 
         val player =
         //? if 1.8.9 {
-        //mc.thePlayer
-            //?} else {
+        /*mc.thePlayer
+            *///?} else {
             mc.player
             //?}
                 ?: return
 
         val level =
         //? if 1.8.9 {
-        //mc.theWorld
-            //?} else {
+        /*mc.theWorld
+            *///?} else {
             mc.level
             //?}
                 ?: return
@@ -618,12 +618,12 @@ object HeightLimitRenderer {
         val targetY = if (HyBedWarsConfig.debugModeEnabled) HyBedWarsConfig.debugModeHeight else limits!!.maxBuild - 1
 
         //? if 1.8.9 {
-        //val partialTicks = event.partialTicks
-        //?} elif >= 26.2 {
+        /*val partialTicks = event.partialTicks
+        *///?} elif >= 26.2 {
         val camera = mc.gameRenderer.mainCamera()
         //?} else {
-        //val camera = mc.gameRenderer.mainCamera
-        //?}
+        /*val camera = mc.gameRenderer.mainCamera
+        *///?}
 
         val viewerX =
         //? if 1.8.9 {
@@ -651,15 +651,15 @@ object HeightLimitRenderer {
 
         val playerX =
         //? if 1.8.9 {
-        //floor(player.posX).toInt()
-            //?} else {
+        /*floor(player.posX).toInt()
+            *///?} else {
             floor(player.x).toInt()
         //?}
 
         val playerZ =
         //? if 1.8.9 {
-        //floor(player.posZ).toInt()
-            //?} else {
+        /*floor(player.posZ).toInt()
+            *///?} else {
             floor(player.z).toInt()
         //?}
 
@@ -771,8 +771,8 @@ object HeightLimitRenderer {
         map: String,
         targetY: Int,
         //? if 1.8.9 {
-        //level: WorldClient,
-        //?} else {
+        /*level: WorldClient,
+        *///?} else {
         level: ClientLevel,
         //?}
         playerX: Int,
@@ -860,8 +860,8 @@ object HeightLimitRenderer {
         //?}
         buffer:
         //? if 1.8.9 {
-        //WorldRenderer,
-        //?} else {
+        /*WorldRenderer,
+        *///?} else {
         VertexConsumer,
         //?}
         playerX: Int,
@@ -1059,8 +1059,8 @@ object HeightLimitRenderer {
 
     private fun drawTop(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1118,8 +1118,8 @@ object HeightLimitRenderer {
 
     private fun drawBottom(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1177,8 +1177,8 @@ object HeightLimitRenderer {
 
     private fun drawNorth(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1236,8 +1236,8 @@ object HeightLimitRenderer {
 
     private fun drawSouth(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1295,8 +1295,8 @@ object HeightLimitRenderer {
 
     private fun drawWest(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1354,8 +1354,8 @@ object HeightLimitRenderer {
 
     private fun drawEast(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}
@@ -1413,8 +1413,8 @@ object HeightLimitRenderer {
 
     private fun vertex(
         //? if 1.8.9 {
-        //buffer: WorldRenderer,
-        //?} else {
+        /*buffer: WorldRenderer,
+        *///?} else {
         p: Matrix4f,
         buffer: VertexConsumer,
         //?}

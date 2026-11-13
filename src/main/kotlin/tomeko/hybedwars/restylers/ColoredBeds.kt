@@ -138,7 +138,7 @@ object ColoredBeds {
         if (lastServer == serverId) return
         lastServer = serverId
 
-        if (!HypixelPackets.inGame || !HypixelPackets.inBedwars) return
+        if ((!HypixelPackets.inGame || !HypixelPackets.inBedwars)) return
 
         bedLocations = null
         if (getBedLocations() != null) reloadRenderers()

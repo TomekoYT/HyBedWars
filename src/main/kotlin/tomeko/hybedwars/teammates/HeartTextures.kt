@@ -3,8 +3,8 @@ package tomeko.hybedwars.teammates
 //? if !forge {
 import net.minecraft.client.Minecraft
 //? if ornithe {
-//import net.minecraft.util.ResourceLocation
-//?} else {
+/*import net.minecraft.util.ResourceLocation
+*///?} else {
 import net.minecraft.resources.Identifier
 //?}
 import org.polyfrost.compose.render.FilterQuality
@@ -58,8 +58,8 @@ object HeartTextures {
 
     private fun read(path: String): ByteArray {
         //? if ornithe {
-        //return Minecraft.getMinecraft().resourceManager.getResource(ResourceLocation(path)).inputStream.use { it.readBytes() }
-        //?} else {
+        /*return Minecraft.getMinecraft().resourceManager.getResource(ResourceLocation(path)).inputStream.use { it.readBytes() }
+        *///?} else {
         return Minecraft.getInstance().resourceManager
             .getResource(Identifier.withDefaultNamespace(path))
             .orElseThrow { IllegalStateException("missing $path") }

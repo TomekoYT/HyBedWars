@@ -1,13 +1,13 @@
 package tomeko.hybedwars.effects
 
 //? if forge {
-//import cc.polyfrost.oneconfig.utils.Notifications
-//?} else {
+/*import cc.polyfrost.oneconfig.utils.Notifications
+*///?} else {
 import org.polyfrost.oneconfig.api.notifications.v1.Notifications
 //?}
 //? if 1.8.9 {
-//import net.minecraft.client.entity.EntityPlayerSP as LocalPlayer
-//?} else {
+/*import net.minecraft.client.entity.EntityPlayerSP as LocalPlayer
+*///?} else {
 import net.minecraft.client.player.LocalPlayer
 //?}
 import net.hypixel.data.type.GameType
@@ -21,8 +21,8 @@ object MiningFatigueNotifier {
             (!HyBedWarsConfig.disableNotifyMiningFatigueSkyblock || HypixelPackets.currentServerType != GameType.SKYBLOCK)
         ) {
             //? if forge {
-            //Notifications.INSTANCE.send(Constants.MOD_NAME, "You have mining fatigue!")
-            //?} else {
+            /*Notifications.INSTANCE.send(Constants.MOD_NAME, "You have mining fatigue!")
+            *///?} else {
             Notifications.send(Constants.MOD_NAME, "You have mining fatigue!")
             //?}
         }

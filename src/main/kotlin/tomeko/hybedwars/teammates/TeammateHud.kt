@@ -45,14 +45,14 @@ import kotlin.math.ceil
  */
 class TeammateHud
 //? if forge {
-//: BasicHud(false)
-//?} else {
+/*: BasicHud(false)
+*///?} else {
     : Hud("${Constants.MOD_ID}_teammates.json", "BedWars Teammates", Category.COMBAT)
 //?}
 {
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     companion object {
         //? if !forge {
         fun register() {
@@ -121,8 +121,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Show Player Head",
@@ -135,8 +135,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Show Heart Icon",
@@ -148,8 +148,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Color Health",
@@ -167,8 +167,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Show Yourself",
@@ -180,8 +180,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Show Dead Teammates",
@@ -194,16 +194,16 @@ class TeammateHud
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Max Players Shown",
         description = "The most teammates the HUD will list at once.",
         min = 1f, max = 40f,
         //? if forge {
-        //step = 1
-        //?} else {
+        /*step = 1
+        *///?} else {
         step = 1f,
         subcategory = SUBCATEGORY_PLAYERS
         //?}
@@ -212,8 +212,8 @@ class TeammateHud
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Nearby Teammates in Castle",
@@ -226,16 +226,16 @@ class TeammateHud
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Castle Range",
         description = "How close (in blocks) a teammate must be to show up in Castle.",
         min = 5f, max = 100f,
         //? if forge {
-        //step = 1
-        //?} else {
+        /*step = 1
+        *///?} else {
         step = 1f,
         subcategory = SUBCATEGORY_PLAYERS
         //?}

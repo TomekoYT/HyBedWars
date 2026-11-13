@@ -5,8 +5,8 @@ package tomeko.hybedwars
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 *///?} elif ornithe {
-//import net.ornithemc.osl.entrypoints.api.ModInitializer
-//?} else {
+/*import net.ornithemc.osl.entrypoints.api.ModInitializer
+*///?} else {
 import net.fabricmc.api.ClientModInitializer
 //?}
 import tomeko.hybedwars.commands.*
@@ -28,29 +28,29 @@ import tomeko.hybedwars.utils.*
 *///?}
 class HyBedWars
 //? if ornithe {
-//: ModInitializer
-//?} elif fabric {
+/*: ModInitializer
+*///?} elif fabric {
     : ClientModInitializer
 //?}
 {
     //? if forge {
-    //@Mod.EventHandler
-    //?} else {
+    /*@Mod.EventHandler
+    *///?} else {
     override
     //?}
     fun
     //? if ornithe {
-    //init(
-    //?} else {
+    /*init(
+    *///?} else {
             onInitializeClient(
         //?}
         //? if forge {
-        //event: FMLInitializationEvent
-        //?}
+        /*event: FMLInitializationEvent
+        *///?}
     ) {
         //? if forge {
-        //EventManager.INSTANCE.register(this)
-        //?}
+        /*EventManager.INSTANCE.register(this)
+        *///?}
 
         HyBedWarsCommand.register()
 

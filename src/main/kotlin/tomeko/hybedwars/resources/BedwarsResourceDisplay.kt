@@ -45,8 +45,8 @@ import tomeko.hybedwars.utils.Constants
 
 class BedwarsResourceDisplay
 //? if forge {
-//: BasicHud(false)
-//?} else {
+/*: BasicHud(false)
+*///?} else {
     : Hud("${Constants.MOD_ID}_bedwars_resource_display.json", "BedWars Resource Display", Category.COMBAT)
 //?}
 {
@@ -61,29 +61,29 @@ class BedwarsResourceDisplay
 
         private fun iron(): Item =
         //? if 1.8.9 {
-        //Items.iron_ingot
-            //?} else {
+        /*Items.iron_ingot
+            *///?} else {
             Items.IRON_INGOT
         //?}
 
         private fun gold(): Item =
         //? if 1.8.9 {
-        //Items.gold_ingot
-            //?} else {
+        /*Items.gold_ingot
+            *///?} else {
             Items.GOLD_INGOT
         //?}
 
         private fun diamond(): Item =
         //? if 1.8.9 {
-        //Items.diamond
-            //?} else {
+        /*Items.diamond
+            *///?} else {
             Items.DIAMOND
         //?}
 
         private fun emerald(): Item =
         //? if 1.8.9 {
-        //Items.emerald
-            //?} else {
+        /*Items.emerald
+            *///?} else {
             Items.EMERALD
         //?}
 
@@ -107,8 +107,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Iron",
@@ -121,8 +121,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Gold",
@@ -135,8 +135,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Diamond",
@@ -149,8 +149,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Emerald",
@@ -163,8 +163,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Inventory",
@@ -177,8 +177,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Ender Chest",
@@ -191,8 +191,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show Total",
@@ -205,8 +205,8 @@ class BedwarsResourceDisplay
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Mode",
@@ -220,8 +220,8 @@ class BedwarsResourceDisplay
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Counters Padding",
@@ -237,8 +237,8 @@ class BedwarsResourceDisplay
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Icon Padding",
@@ -254,8 +254,8 @@ class BedwarsResourceDisplay
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Total Side",
@@ -269,8 +269,8 @@ class BedwarsResourceDisplay
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Icon Side",
@@ -284,8 +284,8 @@ class BedwarsResourceDisplay
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Padding Side",
@@ -299,8 +299,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Compact Numbers",
@@ -313,8 +313,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Hide When Zero",
@@ -327,8 +327,8 @@ class BedwarsResourceDisplay
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Show In Lobby",

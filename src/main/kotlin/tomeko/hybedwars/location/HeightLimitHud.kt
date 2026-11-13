@@ -1,8 +1,8 @@
 package tomeko.hybedwars.location
 
 //? if forge {
-//import cc.polyfrost.oneconfig.config.annotations.Switch
-//?} else {
+/*import cc.polyfrost.oneconfig.config.annotations.Switch
+*///?} else {
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch
 import org.polyfrost.oneconfig.api.hud.v1.HudManager
 import tomeko.hybedwars.utils.Constants
@@ -25,8 +25,8 @@ class HeightLimitHud : BedwarsTextHud(
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Show Limit Y",
@@ -39,8 +39,8 @@ class HeightLimitHud : BedwarsTextHud(
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
         //?}
         "Color By Distance",

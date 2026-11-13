@@ -16,15 +16,15 @@ import org.polyfrost.oneconfig.api.commands.v1.CommandManager.literal
 *///?}
 import org.polyfrost.oneconfig.utils.v1.dsl.openUI
 //? if ornithe {
-//import org.polyfrost.oneconfig.internal.legacy.command.ClientCommandRegistrationCallback
-//?}
+/*import org.polyfrost.oneconfig.internal.legacy.command.ClientCommandRegistrationCallback
+*///?}
 //?}
 import tomeko.hybedwars.config.HyBedWarsConfig
 import tomeko.hybedwars.utils.Constants
 
 //? if forge {
-//@Command(value = Constants.MOD_ID)
-//?}
+/*@Command(value = Constants.MOD_ID)
+*///?}
 object HyBedWarsCommand {
     //? if !forge {
     private var shouldOpenConfig: Boolean = false
@@ -32,8 +32,8 @@ object HyBedWarsCommand {
 
     fun register() {
         //? if forge {
-        //CommandManager.INSTANCE.registerCommand(this)
-        //?} else {
+        /*CommandManager.INSTANCE.registerCommand(this)
+        *///?} else {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             dispatcher.register(
                 literal(Constants.MOD_ID)
@@ -45,8 +45,8 @@ object HyBedWarsCommand {
         }
 
         //? if ornithe {
-        //MinecraftClientEvents.TICK_END.register {
-            //?} else {
+        /*MinecraftClientEvents.TICK_END.register {
+            *///?} else {
         ClientTickEvents.END_CLIENT_TICK.register {
             //?}
             if (!shouldOpenConfig) return@register

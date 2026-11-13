@@ -5,9 +5,9 @@ package tomeko.hybedwars.restylers
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 *///?} elif ornithe {
-//import net.minecraft.util.IChatComponent as Component
-//import tomeko.hybedwars.event.ClientReceiveMessageEvents
-//?} else {
+/*import net.minecraft.util.IChatComponent as Component
+import tomeko.hybedwars.event.ClientReceiveMessageEvents
+*///?} else {
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.minecraft.network.chat.Component
 //?}
@@ -24,8 +24,8 @@ object HardcoreHearts {
 
     fun register() {
         //? if forge {
-        //MinecraftForge.EVENT_BUS.register(this)
-        //?} else {
+        /*MinecraftForge.EVENT_BUS.register(this)
+        *///?} else {
         ClientReceiveMessageEvents.GAME.register(::onChat)
         //?}
     }
@@ -47,19 +47,19 @@ object HardcoreHearts {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun onChat(
         //? if forge {
-        //event: ClientChatReceivedEvent
-        //?} else {
+        /*event: ClientChatReceivedEvent
+        *///?} else {
         component: Component,
         fromActionBar: Boolean
         //?}
     ) {
         //? if forge {
-        //if (event.type.toInt() == 2 || event.message == null) return
-        //?} else {
+        /*if (event.type.toInt() == 2 || event.message == null) return
+        *///?} else {
         if (fromActionBar) return
         //?}
 
@@ -67,10 +67,10 @@ object HardcoreHearts {
 
         val message =
             //? if forge {
-            //event.message.unformattedText.removeFormatting()
-            //? elif ornithe {
-            //component.unformattedText.removeFormatting()
-            //?} else {
+            /*event.message.unformattedText.removeFormatting()
+            *///? elif ornithe {
+            /*component.unformattedText.removeFormatting()
+            *///?} else {
             component.string.removeFormatting()
             //?}
 

@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import tomeko.hybedwars.restylers.HideArmor;
 
 //? if 1.8.9 {
-/*
-import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
+
+/*import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
@@ -32,8 +32,8 @@ import net.minecraft.world.item.equipment.Equippable;
 )
 abstract class HideArmorMixin {
     //? if 1.8.9 {
-    /*
-    @Shadow
+    
+    /*@Shadow
     public abstract ItemStack getCurrentArmor(EntityLivingBase entityLivingBaseIn, int armorSlot);
 
     @Inject(method = "renderLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/LayerArmorBase;getArmorModel(I)Lnet/minecraft/client/model/ModelBase;"), cancellable = true)

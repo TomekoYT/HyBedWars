@@ -77,8 +77,8 @@ object PlayerFaces {
 
     private fun defaultSkin(): SkinId =
         //? if ornithe {
-        //DefaultPlayerSkin.getDefaultSkinLegacy()
-        //?} else {
+        /*DefaultPlayerSkin.getDefaultSkinLegacy()
+        *///?} else {
         DefaultPlayerSkin.getDefaultTexture()
         //?}
 
@@ -104,8 +104,8 @@ object PlayerFaces {
     private fun readSkin(id: SkinId): Pair<Int, (Int, Int) -> Int>? {
         val mc =
             //? if ornithe {
-            //Minecraft.getMinecraft()
-            //?} else {
+            /*Minecraft.getMinecraft()
+            *///?} else {
             Minecraft.getInstance()
             //?}
 

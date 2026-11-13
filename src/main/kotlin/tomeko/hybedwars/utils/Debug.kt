@@ -19,8 +19,8 @@ object Debug {
 
     fun forceLog(message: String) {
         //? if forge {
-        //println("[${Constants.MOD_NAME}] $message")
-        //?} else {
+        /*println("[${Constants.MOD_NAME}] $message")
+        *///?} else {
         LOGGER.info("[${Constants.MOD_NAME}] $message")
         //?}
     }

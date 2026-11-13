@@ -65,15 +65,15 @@ object BedwarsInfo {
 
         val mc =
             //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-            //?} else {
+            /*Minecraft.getMinecraft()
+            *///?} else {
             Minecraft.getInstance()
             //?}
 
         val feetY =
             //? if 1.8.9 {
-            //floor(mc.thePlayer?.posY ?: return null).toInt()
-            //?} else {
+            /*floor(mc.thePlayer?.posY ?: return null).toInt()
+            *///?} else {
             floor(mc.player?.y ?: return null).toInt()
             //?}
 

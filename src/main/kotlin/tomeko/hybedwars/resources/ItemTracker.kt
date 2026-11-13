@@ -17,8 +17,8 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 *///?} elif ornithe {
-//import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
-//?}
+/*import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents
+*///?}
 *///?} else {
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
@@ -38,8 +38,8 @@ import tomeko.hybedwars.config.HyBedWarsConfig
 import tomeko.hybedwars.location.HypixelPackets
 import tomeko.hybedwars.utils.removeFormatting
 //? if ornithe {
-//import tomeko.hybedwars.event.ClientReceiveMessageEvents
-//?}
+/*import tomeko.hybedwars.event.ClientReceiveMessageEvents
+*///?}
 import java.util.regex.Pattern
 
 object ItemTracker {
@@ -58,11 +58,11 @@ object ItemTracker {
 
     fun register() {
         //? if forge {
-        //MinecraftForge.EVENT_BUS.register(this)
-        //?} else {
+        /*MinecraftForge.EVENT_BUS.register(this)
+        *///?} else {
         //? if ornithe {
-        //MinecraftClientEvents.TICK_END.register {
-            //?} else {
+        /*MinecraftClientEvents.TICK_END.register {
+            *///?} else {
             ClientTickEvents.END_CLIENT_TICK.register {
             //?}
             scanInventory()
@@ -76,24 +76,24 @@ object ItemTracker {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun scanInventory(
         //? if forge {
-        //event: TickEvent.ClientTickEvent
-        //?}
+        /*event: TickEvent.ClientTickEvent
+        *///?}
     ) {
         val mc =
             //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-            //?} else {
+            /*Minecraft.getMinecraft()
+            *///?} else {
             Minecraft.getInstance()
         //?}
 
         //? if 1.8.9 {
         /*//? if forge {
-        //if (event.phase != TickEvent.Phase.END) return
-        //?}
+        /*if (event.phase != TickEvent.Phase.END) return
+        *///?}
         if (mc.thePlayer == null || mc.thePlayer.inventory == null) return
         *///?} else {
         if (mc.player == null) return
@@ -101,29 +101,29 @@ object ItemTracker {
 
         val IRON: Item =
             //? if 1.8.9 {
-            //Items.iron_ingot
-        //?} else {
+            /*Items.iron_ingot
+        *///?} else {
         Items.IRON_INGOT
         //?}
 
         val GOLD: Item =
             //? if 1.8.9 {
-            //Items.gold_ingot
-        //?} else {
+            /*Items.gold_ingot
+        *///?} else {
         Items.GOLD_INGOT
         //?}
 
         val DIAMOND: Item =
             //? if 1.8.9 {
-            //Items.diamond
-        //?} else {
+            /*Items.diamond
+        *///?} else {
         Items.DIAMOND
         //?}
 
         val EMERALD: Item =
             //? if 1.8.9 {
-            //Items.emerald
-        //?} else {
+            /*Items.emerald
+        *///?} else {
         Items.EMERALD
         //?}
 
@@ -140,15 +140,15 @@ object ItemTracker {
         }
 
         //? if 1.8.9 {
-        //val mainInventory: Array<ItemStack?> = mc.thePlayer.inventory.mainInventory
-        //?} else {
+        /*val mainInventory: Array<ItemStack?> = mc.thePlayer.inventory.mainInventory
+        *///?} else {
         val mainInventory: Inventory = mc.player!!.inventory
         //?}
 
         for (stack in mainInventory) {
             //? if 1.8.9 {
-            //if (stack == null) continue
-            //?} else {
+            /*if (stack == null) continue
+            *///?} else {
             if (stack.isEmpty) continue
             //?}
 
@@ -156,8 +156,8 @@ object ItemTracker {
                 if (item == stack.item) {
                     val count =
                         //? if 1.8.9 {
-                        //stack.stackSize
-                    //?} else {
+                        /*stack.stackSize
+                    *///?} else {
                     stack.count
                     //?}
 
@@ -170,33 +170,33 @@ object ItemTracker {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun scanEnderChest(
         //? if forge {
-        //event: TickEvent.ClientTickEvent
-        //?}
+        /*event: TickEvent.ClientTickEvent
+        *///?}
     ) {
         val mc =
             //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-        //?} else {
+            /*Minecraft.getMinecraft()
+        *///?} else {
         Minecraft.getInstance()
         //?}
 
         val screen =
             //? if 1.8.9 {
-            //mc.currentScreen
-        //?} else if >= 26.2 {
+            /*mc.currentScreen
+        *///?} else if >= 26.2 {
         mc.gui.screen()
         //?} else {
-        //mc.screen
-        //?}
+        /*mc.screen
+        *///?}
 
         //? if 1.8.9 {
         /*//? if forge {
-        //if (event.phase != TickEvent.Phase.END) return
-        //?}
+        /*if (event.phase != TickEvent.Phase.END) return
+        *///?}
         if (screen !is GuiChest || mc.thePlayer.openContainer !is ContainerChest) return
         *///?} else {
         if (screen !is ContainerScreen) return
@@ -204,44 +204,44 @@ object ItemTracker {
 
         if (lastBlock !=
             //? if 1.8.9 {
-            //Blocks.ender_chest
-        //?} else {
+            /*Blocks.ender_chest
+        *///?} else {
         Blocks.ENDER_CHEST
         //?}
         ) return
 
         val containerInventory =
             //? if 1.8.9 {
-            //(mc.thePlayer.openContainer as ContainerChest).lowerChestInventory
-        //?} else {
+            /*(mc.thePlayer.openContainer as ContainerChest).lowerChestInventory
+        *///?} else {
         screen.menu.container
         //?}
 
         val IRON: Item =
             //? if 1.8.9 {
-            //Items.iron_ingot
-        //?} else {
+            /*Items.iron_ingot
+        *///?} else {
         Items.IRON_INGOT
         //?}
 
         val GOLD: Item =
             //? if 1.8.9 {
-            //Items.gold_ingot
-        //?} else {
+            /*Items.gold_ingot
+        *///?} else {
         Items.GOLD_INGOT
         //?}
 
         val DIAMOND: Item =
             //? if 1.8.9 {
-            //Items.diamond
-        //?} else {
+            /*Items.diamond
+        *///?} else {
         Items.DIAMOND
         //?}
 
         val EMERALD: Item =
             //? if 1.8.9 {
-            //Items.emerald
-        //?} else {
+            /*Items.emerald
+        *///?} else {
         Items.EMERALD
         //?}
 
@@ -260,15 +260,15 @@ object ItemTracker {
         for (
         i in 0 until
                 //? if 1.8.9 {
-                //containerInventory.sizeInventory
-        //?} else {
+                /*containerInventory.sizeInventory
+        *///?} else {
         containerInventory.containerSize
 //?}
         ) {
             val stack =
                 //? if 1.8.9 {
-                //containerInventory.getStackInSlot(i) ?: continue
-            //?} else {
+                /*containerInventory.getStackInSlot(i) ?: continue
+            *///?} else {
             containerInventory.getItem(i)
             //?}
 
@@ -280,8 +280,8 @@ object ItemTracker {
                 if (item == stack.item) {
                     val count =
                         //? if 1.8.9 {
-                        //stack.stackSize
-                    //?} else {
+                        /*stack.stackSize
+                    *///?} else {
                     stack.count
                     //?}
 
@@ -294,28 +294,28 @@ object ItemTracker {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun scanMessage(
         //? if forge {
-        //event: ClientChatReceivedEvent
-        //?} else {
+        /*event: ClientChatReceivedEvent
+        *///?} else {
         component: Component,
         fromActionBar: Boolean
         //?}
     ) {
         //? if forge {
-        //if (event.type.toInt() == 2 || event.message == null) return
-        //?} else {
+        /*if (event.type.toInt() == 2 || event.message == null) return
+        *///?} else {
         if (fromActionBar) return
         //?}
 
         val message =
             //? if forge {
-            //event.message.unformattedText.removeFormatting()
-            //? elif ornithe {
-            //component.unformattedText.removeFormatting()
-                //?} else {
+            /*event.message.unformattedText.removeFormatting()
+            *///? elif ornithe {
+            /*component.unformattedText.removeFormatting()
+                *///?} else {
                 component.string.removeFormatting()
                 //?}
 
@@ -334,8 +334,8 @@ object ItemTracker {
 
         enderChest[
             //? if 1.8.9 {
-            //Item.getByNameOrId("minecraft:$id")
-            //?} else {
+            /*Item.getByNameOrId("minecraft:$id")
+            *///?} else {
             BuiltInRegistries.ITEM.getValue(
                 Identifier.fromNamespaceAndPath("minecraft", id)
             )
@@ -344,16 +344,16 @@ object ItemTracker {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun stopTracking(
         //? if forge {
-        //event: TickEvent.ClientTickEvent
-        //?}
+        /*event: TickEvent.ClientTickEvent
+        *///?}
     ) {
         //? if forge {
-        //if (event.phase != TickEvent.Phase.END) return
-        //?}
+        /*if (event.phase != TickEvent.Phase.END) return
+        *///?}
 
         if (HypixelPackets.inBedwars && lastServerName != HypixelPackets.currentServerName) {
             resetTracker()
@@ -369,29 +369,29 @@ object ItemTracker {
     private fun resetTracker() {
         val IRON: Item =
             //? if 1.8.9 {
-            //Items.iron_ingot
-        //?} else {
+            /*Items.iron_ingot
+        *///?} else {
         Items.IRON_INGOT
         //?}
 
         val GOLD: Item =
             //? if 1.8.9 {
-            //Items.gold_ingot
-        //?} else {
+            /*Items.gold_ingot
+        *///?} else {
         Items.GOLD_INGOT
         //?}
 
         val DIAMOND: Item =
             //? if 1.8.9 {
-            //Items.diamond
-        //?} else {
+            /*Items.diamond
+        *///?} else {
         Items.DIAMOND
         //?}
 
         val EMERALD: Item =
             //? if 1.8.9 {
-            //Items.emerald
-        //?} else {
+            /*Items.emerald
+        *///?} else {
         Items.EMERALD
         //?}
 
@@ -409,47 +409,47 @@ object ItemTracker {
     }
 
     //? if forge {
-    //@SubscribeEvent
-    //?}
+    /*@SubscribeEvent
+    *///?}
     fun trackBlock(
         //? if forge {
-        //event: TickEvent.ClientTickEvent
-        //?}
+        /*event: TickEvent.ClientTickEvent
+        *///?}
     ) {
         //? if forge {
-        //if (event.phase != TickEvent.Phase.END) return
-        //?}
+        /*if (event.phase != TickEvent.Phase.END) return
+        *///?}
 
         val mc =
             //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-        //?} else {
+            /*Minecraft.getMinecraft()
+        *///?} else {
         Minecraft.getInstance()
         //?}
 
         val lookingAt =
             //? if 1.8.9 {
-            //mc.objectMouseOver ?: return
-        //?} else {
+            /*mc.objectMouseOver ?: return
+        *///?} else {
         mc.hitResult ?: return
         //?}
 
         //? if 1.8.9 {
-        //if (lookingAt.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
-        //?} else {
+        /*if (lookingAt.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return
+        *///?} else {
         if (lookingAt !is BlockHitResult) return
         //?}
 
         val block =
             //? if 1.8.9 {
-            //mc.theWorld?.getBlockState(lookingAt.blockPos)?.block ?: return
-        //?} else {
+            /*mc.theWorld?.getBlockState(lookingAt.blockPos)?.block ?: return
+        *///?} else {
         mc.level?.getBlockState(lookingAt.blockPos)?.block ?: return
         //?}
 
         //? if 1.8.9 {
-        //if (block != Blocks.chest && block != Blocks.trapped_chest && block != Blocks.ender_chest) return
-        //?} else {
+        /*if (block != Blocks.chest && block != Blocks.trapped_chest && block != Blocks.ender_chest) return
+        *///?} else {
         if (block != Blocks.CHEST && block != Blocks.TRAPPED_CHEST && block != Blocks.ENDER_CHEST) return
         //?}
 

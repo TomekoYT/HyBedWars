@@ -47,8 +47,8 @@ abstract class LevelChunkMixin {
         if (cir.getReturnValue() == null) return;
 
         //? if 1.8.9 {
-        //if (!(this.worldObj instanceof WorldClient)) return;
-        //?} else {
+        /*if (!(this.worldObj instanceof WorldClient)) return;
+        *///?} else {
         Level level = this.getLevel();
         if (!(level instanceof ClientLevel)) return;
         //?}

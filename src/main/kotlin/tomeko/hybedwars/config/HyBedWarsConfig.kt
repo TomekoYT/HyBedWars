@@ -39,8 +39,8 @@ object HyBedWarsConfig : Config(
     //?}
 ) {
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     val DEPENDENCIES: List<Pair<String, List<String>>> = listOf(
         "notifyMiningFatigue" to listOf("disableNotifyMiningFatigueSkyblock"),
         "blockNotify" to listOf("blockNumber", "blockNotifySound"),
@@ -67,19 +67,19 @@ object HyBedWarsConfig : Config(
     }
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_RESOURCES = "Resources"
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_SHOP = "Shop"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Use Middle Click in Shop",
@@ -91,8 +91,8 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY = "Resource Display"
 
     //? if forge {
@@ -112,19 +112,19 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_TEAMMATES = "Teammates"
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_DEATH_SOUND = "Death Sound"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Teammate Death Sound",
@@ -136,8 +136,8 @@ object HyBedWarsConfig : Config(
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Teammate Death Sound Type",
@@ -150,8 +150,8 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_TEAMMATES_HUD = "Teammates HUD"
 
     //? if forge {
@@ -172,19 +172,19 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_LOCATION = "Location"
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_BLOCK_NOTIFIER = "Block Notifier"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Notify When Blocks Run Out",
@@ -196,8 +196,8 @@ object HyBedWarsConfig : Config(
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Block Number",
@@ -214,8 +214,8 @@ object HyBedWarsConfig : Config(
 
     @Dropdown(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Block Notify Sound",
@@ -228,8 +228,8 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_LOCATION_HUDS = "Location HUDs"
 
     //? if forge {
@@ -264,19 +264,19 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_POTION_EFFECTS = "Potion Effects"
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_MINING_FATIGUE = "Mining Fatigue"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Notify Mining Fatigue",
@@ -288,8 +288,8 @@ object HyBedWarsConfig : Config(
 
     @Checkbox(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Disable Mining Fatigue Notification in SkyBlock",
@@ -301,19 +301,19 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_RESTYLERS = "Restylers"
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_HEIGHT_OVERLAY = "Height Overlay"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Height Overlay",
@@ -325,8 +325,8 @@ object HyBedWarsConfig : Config(
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Opacity",
@@ -343,8 +343,8 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     //? if 1.8.9
     //private const val SUBCATEGORY_COLORED_BEDS = "Colored Beds"
 
@@ -368,14 +368,14 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_HEARTS = "Hardcore Hearts"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Hardcore Hearts When Bed Is Broken",
@@ -387,14 +387,14 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val SUBCATEGORY_HIDE_ARMOR = "Hide Armor"
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Hide Armor",
@@ -406,28 +406,28 @@ object HyBedWarsConfig : Config(
 
 
     //? if forge {
-    //@Exclude
-    //?}
+    /*@Exclude
+    *///?}
     private const val CATEGORY_DEBUG = "Debug"
 
     @Info(
         //? if forge {
-        //text =
-        //?} else {
+        /*text =
+        *///?} else {
         title =
             //?}
             "Probably should stay disabled",
         //? if forge {
-        //type = InfoType.WARNING,
-        //?}
+        /*type = InfoType.WARNING,
+        *///?}
         category = CATEGORY_DEBUG,
     )
     var debugModeInfo: Nothing? = null
 
     @Switch(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Debug Mode",
@@ -437,8 +437,8 @@ object HyBedWarsConfig : Config(
 
     @Slider(
         //? if forge {
-        //name =
-        //?} else {
+        /*name =
+        *///?} else {
         title =
             //?}
             "Debug Mode Height",

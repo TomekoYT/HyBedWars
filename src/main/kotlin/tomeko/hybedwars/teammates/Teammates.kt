@@ -77,8 +77,8 @@ object Teammates {
     fun collect(includeSelf: Boolean, includeDead: Boolean, range: Float, max: Int): List<Teammate> {
         val mc =
             //? if 1.8.9 {
-            //Minecraft.getMinecraft()
-            //?} else {
+            /*Minecraft.getMinecraft()
+            *///?} else {
             Minecraft.getInstance()
             //?}
 
@@ -141,8 +141,8 @@ object Teammates {
             val displayName = "§$myColor$name"
 
             //? if 1.8.9 {
-            //val player: PlayerEntity? = world.getPlayerEntityByName(name)
-            //?} else {
+            /*val player: PlayerEntity? = world.getPlayerEntityByName(name)
+            *///?} else {
             val player: PlayerEntity? = world.players().firstOrNull { it.gameProfile.name() == name }
             //?}
 
@@ -151,8 +151,8 @@ object Teammates {
                 if (!alive || player == null) continue
 
                 //? if 1.8.9 {
-                //val distSq = player.getDistanceSqToEntity(me)
-                //?} else {
+                /*val distSq = player.getDistanceSqToEntity(me)
+                *///?} else {
                 val distSq = player.distanceToSqr(me)
                 //?}
                 if (distSq > rangeSq) continue
@@ -204,29 +204,29 @@ object Teammates {
 
     private fun nameOf(info: TabEntry): String =
         //? if 1.8.9 {
-        //info.gameProfile.name
-        //?} else {
+        /*info.gameProfile.name
+        *///?} else {
         info.profile.name()
         //?}
 
     private fun skinOf(info: TabEntry): SkinId =
         //? if 1.8.9 {
-        //info.locationSkin
-        //?} else {
+        /*info.locationSkin
+        *///?} else {
         info.skin.body().texturePath()
         //?}
 
     private fun isSpectator(info: TabEntry): Boolean =
         //? if 1.8.9 {
-        //info.gameType == WorldSettings.GameType.SPECTATOR
-        //?} else {
+        /*info.gameType == WorldSettings.GameType.SPECTATOR
+        *///?} else {
         info.gameMode == GameType.SPECTATOR
         //?}
 
     private fun isDead(player: PlayerEntity): Boolean =
         //? if 1.8.9 {
-        //player.isDead || player.health <= 0
-        //?} else {
+        /*player.isDead || player.health <= 0
+        *///?} else {
         player.isDeadOrDying
         //?}
 
@@ -246,8 +246,8 @@ object Teammates {
     /** The player's tab list name with legacy color codes. */
     private fun tabListName(info: TabEntry): String {
         //? if 1.8.9 {
-        //return Minecraft.getMinecraft().ingameGUI.tabList.getPlayerName(info)
-        //?} else {
+        /*return Minecraft.getMinecraft().ingameGUI.tabList.getPlayerName(info)
+        *///?} else {
         val component = info.tabListDisplayName
             ?: PlayerTeam.formatNameForTeam(info.team, Component.literal(nameOf(info)))
 
