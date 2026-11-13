@@ -28,6 +28,11 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 - Show Inventory, Ender Chest, Total
 - Works with Hypixel Ender Chest punching feature
 
+#### Upgrades HUD
+
+- Show current diamond upgrades on screen
+- Show current bought traps on screen
+
 ### Teammates
 
 #### Death Sound

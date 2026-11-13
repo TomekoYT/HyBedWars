@@ -12,7 +12,7 @@ import org.polyfrost.oneconfig.api.config.v1.Config
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 //?}
 //? if forge {
-/*import tomeko.hybedwars.resources.BedwarsResourceDisplay
+/*import tomeko.hybedwars.resources.*
 import tomeko.hybedwars.location.GameModeHud
 import tomeko.hybedwars.location.HeightLimitHud
 import tomeko.hybedwars.location.MapNameHud
@@ -108,6 +108,27 @@ object HyBedWarsConfig : Config(
         subcategory = SUBCATEGORY_BEDWARS_RESOURCE_DISPLAY
     )
     var bedwarsResourceDisplayInfo: Nothing? = null
+    //?}
+
+
+    //? if forge {
+    /*@Exclude
+    *///?}
+    private const val SUBCATEGORY_UPGRADES_HUD = "Upgrades HUD"
+
+    //? if forge {
+    /*@HUD(
+        name = SUBCATEGORY_UPGRADES_HUD,
+        category = CATEGORY_RESOURCES
+    )
+    var upgradesHUD = UpgradesHUD()
+    *///?} else {
+    @Info(
+        title = "Upgrades HUD can be edited by clicking Edit HUD in the top left corner",
+        category = CATEGORY_RESOURCES,
+        subcategory = SUBCATEGORY_UPGRADES_HUD
+    )
+    var upgradesHUDInfo: Nothing? = null
     //?}
 
 

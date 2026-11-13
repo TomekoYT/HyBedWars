@@ -61,6 +61,7 @@ class HyBedWars
 
         //? if !forge {
         BedwarsResourceDisplay.register()
+        UpgradesHUD.register()
         HeightLimitHud.register()
         MapNameHud.register()
         GameModeHud.register()
