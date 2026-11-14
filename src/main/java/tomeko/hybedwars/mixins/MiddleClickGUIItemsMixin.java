@@ -188,6 +188,9 @@ abstract class MiddleClickGUIItemsMixin {
     private static boolean hybedwars$moreThanOneButton(String text) {
         text = text.toLowerCase();
 
+        // Fireball's "Right-click to launch!" describes using the item after buying it, not an extra action on the slot
+        if (text.contains("right-click to launch")) return false;
+
         return text.contains("right-click")
                 || text.contains("right click")
                 || text.contains("left-click")
