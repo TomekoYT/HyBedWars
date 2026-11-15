@@ -91,3 +91,4 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 - [Wyvest](https://github.com/Wyvest) - Block Notifier, Colored Beds, Mining Fatigue Notifier
 - [ooTruffle](https://github.com/ooTruffle) - Height Limit, Map Name, Game Mode, Teammates HUDs
 - [ArtixBTW](https://github.com/ArtixBTW) - HUD improvements, Config improvements, Hide Armor
+- [raconmeow](https://github.com/raconmeow) - Middle Click in Shop bugfixes
