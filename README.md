@@ -32,6 +32,9 @@ Minecraft mod for Hypixel adding BedWars QoL features like resource display, hei
 
 - Show current diamond upgrades on screen
 - Show current bought traps on screen
+- Custom upgrade order
+- Keeps upgrades when rejoining the same game
+- Works with Lucky Blocks unlocks
 
 ### Teammates
 

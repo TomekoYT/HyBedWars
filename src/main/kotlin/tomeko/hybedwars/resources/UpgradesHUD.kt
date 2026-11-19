@@ -73,6 +73,21 @@ class BedwarsUpgradesService {
         private val TRAP_SET_OFF = Regex("^(.+?)\\s+Trap was set off!$", RegexOption.IGNORE_CASE)
         private val TRAP_REMOVED = Regex("^Removed\\s+(.+?)\\s+Trap from the queue!$", RegexOption.IGNORE_CASE)
 
+        // Lucky Blocks mode: "<player> unlocked <upgrade or trap>". Anchored so it can't
+        // match things like ">> Achievement Unlocked: ... <<".
+        private val LUCKY_UNLOCK = Regex("^\\w{1,16} unlocked (.+)$")
+
+        /** Every upgrade the HUD can list, in the default order. All forge tiers share the "Forge" slot. */
+        val UPGRADES = listOf(
+            "Sharpened Swords",
+            "Reinforced Armor",
+            "Maniac Miner",
+            "Cushioned Boots",
+            "Forge",
+            "Heal Pool",
+            "Deadshot"
+        )
+
         fun isStartMessage(message: String): Boolean =
             message.contains("Protect your bed and destroy the enemy beds.")
                     && !message.contains(":")
@@ -85,6 +100,9 @@ class BedwarsUpgradesService {
 
         fun isPurchaseMessage(message: String): Boolean =
             !isPlayerChat(message) && message.lowercase(Locale.ROOT).contains("purchased")
+
+        fun isUnlockMessage(message: String): Boolean =
+            !isPlayerChat(message) && LUCKY_UNLOCK.matches(message)
 
         fun isTrapSignalMessage(message: String): Boolean {
             if (isPlayerChat(message)) return false
@@ -118,12 +136,13 @@ class BedwarsUpgradesService {
     @Synchronized
     fun processPurchaseMessage(message: String) {
         val cleaned = message.removeFormatting().trim()
-        if (!isPurchaseMessage(cleaned)) return
+        val rawItem = when {
+            isPurchaseMessage(cleaned) -> cleaned.split("purchased").getOrNull(1) ?: return
+            isUnlockMessage(cleaned) -> LUCKY_UNLOCK.matchEntire(cleaned)?.groupValues?.get(1) ?: return
+            else -> return
+        }
 
-        val parts = cleaned.split("purchased")
-        if (parts.size < 2) return
-
-        val item = parts[1]
+        val item = rawItem
             .trim { it.isWhitespace() || it == '"' || it == '\'' || it == '`' }
             .trimEnd('.', '!', '?')
             .trim()
@@ -182,62 +201,93 @@ class BedwarsUpgradesService {
         }
 
     @Synchronized
-    fun getDisplayLines(shortNames: Boolean, romanNumerals: Boolean): List<UpgradesLine> {
+    fun getDisplayLines(
+        shortNames: Boolean,
+        romanNumerals: Boolean,
+        upgradeOrder: List<String> = UPGRADES,
+        showCounts: Boolean = false,
+        hideWhenNone: Boolean = false
+    ): List<UpgradesLine> {
         val lines = ArrayList<UpgradesLine>()
 
         fun level(value: Int): String = if (romanNumerals) romanNumeral(value) else value.toString()
 
-        lines.add(UpgradesLine(UpgradesLine.Kind.HEADING, "Upgrades:"))
+        val upgrades = ArrayList<Pair<String, UpgradesLine>>()
+        fun add(slot: String, text: String, level: String? = null) {
+            upgrades.add(slot to UpgradesLine(UpgradesLine.Kind.ENTRY, text, level))
+        }
 
         if (sharpSwords >= 2) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("Sharpened Swords", shortNames), level(sharpSwords)))
+            add("Sharpened Swords", shortName("Sharpened Swords", shortNames), level(sharpSwords))
         } else if (sharpSwords == 1) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("Sharpened Swords", shortNames)))
+            add("Sharpened Swords", shortName("Sharpened Swords", shortNames))
         }
 
         if (reinforcedArmor > 0) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("Reinforced Armor", shortNames), level(reinforcedArmor)))
+            add("Reinforced Armor", shortName("Reinforced Armor", shortNames), level(reinforcedArmor))
         }
 
         if (maniacMiner > 0) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("Maniac Miner", shortNames), level(maniacMiner)))
+            add("Maniac Miner", shortName("Maniac Miner", shortNames), level(maniacMiner))
         }
 
         if (cushionedBoots > 0) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("Cushioned Boots", shortNames), level(cushionedBoots)))
+            add("Cushioned Boots", shortName("Cushioned Boots", shortNames), level(cushionedBoots))
         }
 
         if (forgeLevel > 0 && forgeLevel < FORGE_LEVELS.size) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, FORGE_LEVELS[forgeLevel]))
+            add("Forge", FORGE_LEVELS[forgeLevel])
         }
 
         if (healPool) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, "Heal Pool"))
+            add("Heal Pool", "Heal Pool")
         }
 
         if (deadShot > 0) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, shortName("deadShot", shortNames), level(deadShot)))
+            add("Deadshot", "Deadshot", level(deadShot))
         }
 
-        if (sharpSwords == 0 && reinforcedArmor == 0 && maniacMiner == 0 && cushionedBoots == 0
-            && forgeLevel == 0 && !healPool && deadShot == 0
-        ) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, "None"))
+        // Slots missing from the user's order (e.g. added in a later version) keep their default order at the end.
+        fun orderOf(slot: String): Int {
+            val index = upgradeOrder.indexOf(slot)
+            val default = UPGRADES.indexOf(slot)
+            return if (index >= 0) index else upgradeOrder.size + if (default >= 0) default else UPGRADES.size
+        }
+        upgrades.sortBy { orderOf(it.first) }
+
+        val showUpgrades = upgrades.isNotEmpty() || !hideWhenNone
+        val showTraps = activeTraps.isNotEmpty() || !hideWhenNone
+
+        if (showUpgrades) {
+            lines.add(heading("Upgrades:", upgrades.size, showCounts))
+            upgrades.mapTo(lines) { it.second }
+
+            if (upgrades.isEmpty()) {
+                lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, "None"))
+            }
         }
 
-        lines.add(UpgradesLine(UpgradesLine.Kind.BLANK))
-        lines.add(UpgradesLine(UpgradesLine.Kind.HEADING, "Traps:"))
+        if (showUpgrades && showTraps) {
+            lines.add(UpgradesLine(UpgradesLine.Kind.BLANK))
+        }
 
-        if (activeTraps.isEmpty()) {
-            lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, "None"))
-        } else {
-            for (trap in activeTraps) {
-                lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, if (shortNames) shortTrapName(trap) else trap))
+        if (showTraps) {
+            lines.add(heading("Traps:", activeTraps.size, showCounts))
+
+            if (activeTraps.isEmpty()) {
+                lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, "None"))
+            } else {
+                for (trap in activeTraps) {
+                    lines.add(UpgradesLine(UpgradesLine.Kind.ENTRY, if (shortNames) shortTrapName(trap) else trap))
+                }
             }
         }
 
         return lines
     }
+
+    private fun heading(text: String, count: Int, showCount: Boolean): UpgradesLine =
+        UpgradesLine(UpgradesLine.Kind.HEADING, text, if (showCount && count > 0) "($count)" else null)
 
     private fun shortName(fullName: String, short: Boolean): String {
         if (!short) return fullName
@@ -342,7 +392,7 @@ object BedwarsUpgradesTracker {
 
         if (!inSession) return
 
-        if (BedwarsUpgradesService.isPurchaseMessage(message)) {
+        if (BedwarsUpgradesService.isPurchaseMessage(message) || BedwarsUpgradesService.isUnlockMessage(message)) {
             service.processPurchaseMessage(message)
         }
 
@@ -352,11 +402,9 @@ object BedwarsUpgradesTracker {
     }
 
     private fun tick() {
-        if (!inSession) {
-            service.reset()
-            lastServerName = null
-            return
-        }
+        // Outside a game the HUD is just hidden, so rejoining the same game (same server) restores it.
+        // A new game on a reused server is still cleared by its start message.
+        if (!inSession) return
 
         // A new game is a new server
         val server = HypixelPackets.currentServerName
@@ -416,55 +464,92 @@ class UpgradesHUD
     )
     var romanNumerals = true
 
-    @Dropdown(
+    @Switch(
         //? if forge {
         //name =
         //?} else {
         title =
             //?}
-            "Heading Color",
+            "Show Counts",
+        description = "Show how many upgrades and traps you have next to each heading",
+        //? if !forge {
+        subcategory = SUBCATEGORY_GENERAL
+        //?}
+    )
+    var showCounts = false
+
+    //? if !forge {
+    @DraggableList(
+        title = "Upgrade Order",
+        description = "Drag upgrades into the order they're listed in. Traps are always listed in the order they'll go off.",
+        subcategory = SUBCATEGORY_GENERAL
+    )
+    var upgradeOrder: Array<String> = BedwarsUpgradesService.UPGRADES.toTypedArray()
+    //?}
+
+    @Switch(
+        //? if forge {
+        //name =
+        //?} else {
+        title =
+            //?}
+            "Hide When None",
+        description = "Hide the Upgrades or Traps section when it's empty instead of showing \"None\"",
+        //? if !forge {
+        subcategory = SUBCATEGORY_GENERAL
+        //?}
+    )
+    var hideWhenNone = false
+
+    //? if forge {
+    /*@Dropdown(
+        name = "Heading Color",
         description = "Color for section headings (Upgrades/Traps)",
         options = [
             "Black", "Dark Blue", "Dark Green", "Dark Aqua",
             "Dark Red", "Dark Purple", "Gold", "Gray",
             "Dark Gray", "Blue", "Green", "Aqua",
             "Red", "Light Purple", "Yellow", "White"
-        ],
-        //? if !forge {
-        subcategory = SUBCATEGORY_FORMATTING
-        //?}
+        ]
     )
     var headingColorIndex = 11
 
     @Dropdown(
-        //? if forge {
-        //name =
-        //?} else {
-        title =
-            //?}
-            "Text Color",
+        name = "Text Color",
         description = "Color for upgrade and trap names",
         options = [
             "Black", "Dark Blue", "Dark Green", "Dark Aqua",
             "Dark Red", "Dark Purple", "Gold", "Gray",
             "Dark Gray", "Blue", "Green", "Aqua",
             "Red", "Light Purple", "Yellow", "White"
-        ],
-        //? if !forge {
-        subcategory = SUBCATEGORY_FORMATTING
-        //?}
+        ]
     )
     var textColorIndex = 15
-
-    init {
-        BedwarsUpgradesTracker.register()
-    }
 
     private val headingIndex: Int
         get() = headingColorIndex.coerceIn(0, COLOR_CODES.length - 1)
 
     private val bodyIndex: Int
         get() = textColorIndex.coerceIn(0, COLOR_CODES.length - 1)
+    *///?} else {
+    @Color(
+        title = "Heading Color",
+        description = "Color for section headings (Upgrades/Traps)",
+        subcategory = SUBCATEGORY_FORMATTING
+    )
+    var headingColor: PolyColor = PolyColor(0xFF55FFFF.toInt())
+
+    @Color(
+        title = "Text Color",
+        description = "Color for upgrade and trap names",
+        subcategory = SUBCATEGORY_FORMATTING
+    )
+    var entryColor: PolyColor = PolyColor(0xFFFFFFFF.toInt())
+    //?}
+
+    init {
+        BedwarsUpgradesTracker.register()
+    }
 
     private val active: Boolean
         get() = BedwarsUpgradesTracker.inSession
@@ -473,7 +558,11 @@ class UpgradesHUD
         if (!example && !active) return emptyList()
 
         val service = if (example) BedwarsUpgradesService.example() else BedwarsUpgradesTracker.service
-        return service.getDisplayLines(shortNames, romanNumerals)
+        //? if forge {
+        //return service.getDisplayLines(shortNames, romanNumerals, showCounts = showCounts, hideWhenNone = hideWhenNone)
+        //?} else {
+        return service.getDisplayLines(shortNames, romanNumerals, upgradeOrder.asList(), showCounts, hideWhenNone)
+        //?}
     }
 
     //? if forge {
@@ -489,7 +578,8 @@ class UpgradesHUD
         for (line in buildLines(example)) {
             lines.add(
                 when (line.kind) {
-                    UpgradesLine.Kind.HEADING -> "${heading}§l${line.text}"
+                    UpgradesLine.Kind.HEADING ->
+                        if (line.level != null) "${heading}§l${line.text} §7${line.level}" else "${heading}§l${line.text}"
                     UpgradesLine.Kind.ENTRY ->
                         if (line.level != null) "${body}${line.text} §7${line.level}" else "${body}${line.text}"
                     UpgradesLine.Kind.BLANK -> ""
@@ -533,8 +623,7 @@ class UpgradesHUD
 
         val scale = textScale
         val shadow = showShadow
-        val headingColor = PolyColor(COLOR_ARGB[headingIndex])
-        val bodyColor = PolyColor(COLOR_ARGB[bodyIndex])
+        val bodyColor = entryColor
         val levelColor = PolyColor(GRAY_ARGB)
         val lineHeight = McFontQueue.measureTextHeight(scale)
         val spaceWidth = McFontQueue.measureTextWidth(" ", scale)
@@ -544,7 +633,12 @@ class UpgradesHUD
                 for (line in lines) {
                     when (line.kind) {
                         UpgradesLine.Kind.HEADING ->
-                            PolyMcText("§l" + line.text, color = headingColor, shadow = shadow, scale = scale)
+                            PolyRow(gap = spaceWidth) {
+                                PolyMcText("§l" + line.text, color = headingColor, shadow = shadow, scale = scale)
+                                if (line.level != null) {
+                                    PolyMcText(line.level, color = levelColor, shadow = shadow, scale = scale)
+                                }
+                            }
 
                         UpgradesLine.Kind.ENTRY ->
                             PolyRow(gap = spaceWidth) {
@@ -571,6 +665,7 @@ class UpgradesHUD
 
     override fun clone(): Hud = (super.clone() as UpgradesHUD).also {
         it.linesState = mutableStateOf(linesState.value)
+        it.upgradeOrder = upgradeOrder.copyOf()
     }
     //?}
 }
