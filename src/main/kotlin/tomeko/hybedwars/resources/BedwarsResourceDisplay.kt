@@ -33,11 +33,11 @@ import org.polyfrost.compose.composables.padding
 import org.polyfrost.compose.composables.size
 import org.polyfrost.compose.layout.PolyInsets
 import org.polyfrost.compose.mc.McFontQueue
+import org.polyfrost.compose.minecraft.mc.NodeMcItemIcon
 import org.polyfrost.compose.render.PolyColor
 import org.polyfrost.oneconfig.api.config.v1.annotations.*
 import org.polyfrost.oneconfig.api.hud.v1.Hud
 import org.polyfrost.oneconfig.api.hud.v1.HudManager
-import org.polyfrost.oneconfig.api.ui.v1.item.PolyItemIcon
 //?}
 import tomeko.hybedwars.config.HyBedWarsConfig
 import tomeko.hybedwars.location.HypixelPackets
@@ -95,13 +95,6 @@ class BedwarsResourceDisplay
 
         private const val ICON_SIZE = 16f
 
-        private fun iconId(item: Item): String =
-            when (item) {
-                iron() -> "minecraft:iron_ingot"
-                gold() -> "minecraft:gold_ingot"
-                diamond() -> "minecraft:diamond"
-                else -> "minecraft:emerald"
-            }
         //?}
     }
 
@@ -542,7 +535,7 @@ class BedwarsResourceDisplay
     override fun shouldShow(): Boolean =
         super.shouldShow() && (HyBedWarsConfig.debugModeEnabled || (HypixelPackets.inBedwars && (showInLobby || !HypixelPackets.inLobby)))
     *///?} else {
-    private class Entry(val iconId: String, val text: String)
+    private class Entry(val item: Item, val text: String)
 
     private var entriesState: MutableState<List<Entry>> = mutableStateOf(emptyList())
 
@@ -556,7 +549,7 @@ class BedwarsResourceDisplay
             val (inventoryAmount, enderChestAmount) = amounts(item)
 
             if (!showItem(item, inventoryAmount, enderChestAmount)) null
-            else Entry(iconId(item), getText(item, inventoryAmount, enderChestAmount).trimEnd())
+            else Entry(item, getText(item, inventoryAmount, enderChestAmount).trimEnd())
         }
     }
 
@@ -629,9 +622,9 @@ class BedwarsResourceDisplay
         PolyRow(gap = iconPadding * scale) {
             if (iconSide == 1) {
                 ResourceText(entry.text, color, shadow, scale)
-                PolyItemIcon(entry.iconId, ICON_SIZE * scale)
+                NodeMcItemIcon(entry.item, ICON_SIZE * scale)
             } else {
-                PolyItemIcon(entry.iconId, ICON_SIZE * scale)
+                NodeMcItemIcon(entry.item, ICON_SIZE * scale)
                 ResourceText(entry.text, color, shadow, scale)
             }
         }
